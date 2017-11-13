@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/space shooter  tut backup3.unity
+  isLoaded: 1
+  isActive: 1
