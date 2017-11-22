@@ -17,7 +17,7 @@ public class followmouse : MonoBehaviour
     }
   
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         thispos = GetComponent<Transform>();
 

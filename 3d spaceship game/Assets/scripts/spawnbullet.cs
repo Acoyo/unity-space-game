@@ -8,8 +8,13 @@ public class spawnbullet : MonoBehaviour {
     public GameObject bullet3;
     public GameObject bullet4;
     public GameObject bullet5;
+    public GameObject bulletleft;
+    public GameObject bulletright;
     public GameObject ship;
     public GameObject currentbullet;
+    public Transform middle;
+    public Transform middletemp;
+    public GameObject heroic;
 
     public Transform orig;
     public Transform centreofplayer;
@@ -18,7 +23,12 @@ public class spawnbullet : MonoBehaviour {
     public int countdown;
     public int coundownattackspeed;
     // Use this for initialization
+    private void OnEnable()
+    {
+       // heroic= GameObject.FindWithTag("HeroicUnit");
+    }
     void Start () {
+        heroic = GameObject.FindWithTag("HeroicUnit");
         orig = GetComponent<Transform>();
         currentbullet = bullet;
         coundownattackspeed = GetComponentInParent<shipstats>().attackspeed;
@@ -36,60 +46,86 @@ public class spawnbullet : MonoBehaviour {
 
     }
     void FixedUpdate()
-    {
-        countdown--;
-        if (countdown <= 0)
+    {//if (heroic.tag== "HeroicUnit")
         {
-            countdown = coundownattackspeed;
-            coundownattackspeed = GetComponentInParent<shipstats>().attackspeed;
+            countdown--;
+            if (countdown < 0)
+            {
+                coundownattackspeed = GetComponentInParent<shipstats>().attackspeed;
+                countdown = coundownattackspeed;
+
+            }
+            if (Input.GetMouseButton(0) && (ship.gameObject.tag == "Player") && (countdown == 0))
+
+            {
+
+                mouseclick.firstclick = true;
+                mouseclick.bulletoff = false;
+
+                fireleftmouse();
+
+            }
         }
     }
-   
-    void Update () {
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-
+    void Update()
+    {
+        //if (heroic.tag == "HeroicUnit")
         {
-            currentbullet = bullet;
+            //countdown--;
+            //if (countdown < 0)
+            //{
+            //    coundownattackspeed = GetComponentInParent<shipstats>().attackspeed;
+            //    countdown = coundownattackspeed;
+
+            //}
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+
+            {
+                currentbullet = bullet;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+
+            {
+                currentbullet = bullet2;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+
+            {
+                currentbullet = bullet3;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+
+            {
+                currentbullet = bullet4;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+
+            {
+                currentbullet = bullet5;
+            }
+            else if (Input.GetKeyDown(KeyCode.Space))
+
+            {
+                firebullet();
+            }
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+
+            {
+                firecurvebullets();
+                Debug.Log("yo");
+            }
+
+
+            if (Input.GetMouseButton(1) && (ship.gameObject.tag == "Player") && (countdown == 0))
+            {
+                //if(mouseclick.bulletteleport==false)
+                firerightmouse();
+            }
+
+
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-
-        {
-            currentbullet = bullet2;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-
-        {
-            currentbullet = bullet3;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-
-        {
-            currentbullet = bullet4;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-
-        {
-            currentbullet = bullet5;
-        }
-
-        else if (Input.GetKeyDown("space") && (ship.gameObject.tag == "Player"))
-
-        {
-
-            mouseclick.firstclick = true;
-            mouseclick.bulletoff = false;
-
-            firebullet2();
-
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            if(mouseclick.bulletteleport==false)
-            firebullet();
-        }
-            
-
     }
     //void OnMouseDown()
     //{
@@ -97,13 +133,23 @@ public class spawnbullet : MonoBehaviour {
     //}
         void firebullet()
     {
-        Instantiate(bullet5, new Vector3(centreofplayer.position.x, centreofplayer.position.y, centreofplayer.position.z), Quaternion.identity);
+        Instantiate(bullet2, new Vector3(centreofplayer.position.x, centreofplayer.position.y, centreofplayer.position.z), centreofplayer.rotation);
     }
-    void firebullet3()
+    void firerightmouse()
     {
-        Instantiate(bullet, new Vector3(orig.position.x, orig.position.y, orig.position.z), orig.rotation);
+        Instantiate(bullet3, new Vector3(orig.position.x, orig.position.y, orig.position.z), orig.rotation);
     }
-    void firebullet2()
+    void firecurvebullets()
+    {
+        Instantiate(middle, new Vector3(middletemp.position.x, middletemp.position.y, middletemp.position.z), middletemp.rotation);
+        Instantiate(bulletleft, new Vector3(orig.position.x, orig.position.y, orig.position.z+4), orig.rotation);
+        Instantiate(bulletright, new Vector3(orig.position.x, orig.position.y, orig.position.z+4), orig.rotation);
+        //middle.name = "middle";
+        
+        //middle.name = "middle";
+
+    }
+    void fireleftmouse()
     {
         if (gameObject.name == "pbullet spawn")
         {

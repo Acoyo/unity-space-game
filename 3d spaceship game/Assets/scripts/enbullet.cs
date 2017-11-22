@@ -12,13 +12,15 @@ public class enbullet : MonoBehaviour
     public float distance;
     public float mindist = 5f;
     public float maxdist = 20f;
+    public int destroytime = 2;
 
     private void Start()
     {
-      
+
         target2 = GameObject.Find("aaaaaa");
+        Destroy(gameObject, destroytime);
     }
-    void Update()
+    void FixedUpdate()
     {
         distance = Vector3.Distance(gameObject.transform.position, FindClosestEnemy().transform.position);
         if ((distance < maxdist + 2))
@@ -30,7 +32,7 @@ public class enbullet : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, FindClosestEnemy().transform.position, speed);
 
         }
-        if(distance <= .1f)
+        if (distance <= .1f)
         {
             Destroy(gameObject);
         }
@@ -73,8 +75,13 @@ public class enbullet : MonoBehaviour
         }
         return closest;
     }
+
     void OnTriggerEnter(Collider other)
     {
 
+        if (other.gameObject.CompareTag("bullet"))
+        {
+          //  Destroy(gameObject);
+        }
     }
 }

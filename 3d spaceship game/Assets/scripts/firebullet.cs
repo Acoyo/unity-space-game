@@ -7,23 +7,32 @@ public class firebullet : MonoBehaviour
     public GameObject bullet;
     public Transform orig;
     public Transform mousepos;
-    public int speed = 10;
-    public int destroyTime=4;
+    public  float speed = 10f;
+    public float speedslows = 20f;
+    public bool lr;
+    public float destroyTime=4;
+    public Rigidbody thisbody;
     // Use this for initialization
     void Start()
     {
-       // orig = GetComponent<Transform>();
-        GetComponent<Rigidbody>().velocity = transform.forward * speed;
-        
+        //thisbody = GetComponent<Rigidbody>();
+        //thisbody.AddForce(0, 5, 0);
+        // orig = GetComponent<Transform>();
+        GetComponent<Rigidbody>().velocity = transform.forward * speed;// transform.right* speedslows;
+        //GetComponent<Rigidbody>().velocity = transform.right * speedslows;
+        // transform.Translate(Vector3.forward * Time.deltaTime);
+        //transform.Translate(Vector3.up * Time.deltaTime * speed, Space.World);
         Destroy(gameObject, destroyTime);
     }
-
+  
     // Update is called once per frame
+ 
     void Update()
     {
+        //thisbody.AddForce(0, 0, 20, ForceMode.Impulse);
         if (Input.GetKeyDown("space") && (gameObject.name == "playerbullet(Clone)"))
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
         //transform.Translate(Vector3.forward * Time.deltaTime);
 
@@ -35,7 +44,10 @@ public class firebullet : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-
+        if (other.gameObject.CompareTag("enbullet"))
+        {
+            Destroy(gameObject);
+        }
         if (other.gameObject.CompareTag("enemy"))
         {
             if (gameObject.tag == "bullethealing")

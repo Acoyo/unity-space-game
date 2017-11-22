@@ -42,7 +42,7 @@ public class firebulletmindcontrol : MonoBehaviour
         if (other.gameObject.CompareTag("enemy") || (other.gameObject.CompareTag("Player")))
         {
             //Destroy(other.gameObject);
-            other.gameObject.name = "tempplayer";
+            //other.gameObject.name = "tempplayer";
         }
     }
 }

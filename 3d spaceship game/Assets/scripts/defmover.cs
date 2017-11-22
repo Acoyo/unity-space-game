@@ -9,8 +9,19 @@ public class defmover : MonoBehaviour
     public float distance;
     public float mindist = 5f;
     public float maxdist = 20f;
+    public float destroyTime = 1f;
+
+    private void Start()
+    {
+        Destroy(gameObject, destroyTime);
+    }
     void Update()
     {
+
+        //if (target == null)
+        //{
+        //    Destroy(gameObject);
+        //}
         distance = Vector3.Distance(transform.position, FindClosestEnemy().transform.position);
         target2 = GameObject.FindWithTag("enemy");
         target = target2.transform;
@@ -19,14 +30,12 @@ public class defmover : MonoBehaviour
             transform.LookAt(FindClosestEnemy().transform.position);
         }
         transform.position = Vector3.MoveTowards(transform.position, FindClosestEnemy().transform.position, speed);
-        if (distance> maxdist+10)
+        if (distance > maxdist + 10)
         {
             Destroy(gameObject);
         }
-        if (FindClosestEnemy().transform.position == null)
-        {
-            Destroy(gameObject);
-        }
+     
+      
     }
     public GameObject FindClosestEnemy()
     {

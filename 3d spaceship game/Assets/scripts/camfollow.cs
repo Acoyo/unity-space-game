@@ -10,7 +10,7 @@ public class camfollow : MonoBehaviour
     static public GameObject target2;
     static public GameObject target3;
     // Update is called once per frame
-    void FixedUpdate()
+    void LateUpdate()
     {
 
         target2 = GameObject.FindWithTag("HeroicUnit");

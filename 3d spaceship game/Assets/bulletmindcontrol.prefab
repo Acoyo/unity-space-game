@@ -114,7 +114,7 @@ MonoBehaviour:
   bullet: {fileID: 0}
   orig: {fileID: 0}
   mousepos: {fileID: 0}
-  speed: 20
+  speed: 100
   destroyTime: 4
 --- !u!135 &135064789078978148
 SphereCollider:

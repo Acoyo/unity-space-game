@@ -13,7 +13,9 @@ public class playermove : MonoBehaviour
     public GameObject childObj2;
     public GameObject aggrosphere;
     public int playerhealth;
-
+    public float distance;
+    public bool isrevealed = false;
+    public int cd=100;
 
     void Start()
     {
@@ -21,8 +23,10 @@ public class playermove : MonoBehaviour
        // GetComponent<lookatplayer>().shiphealthenemy = defenderhealth;
         rb = GetComponent<Rigidbody>();
         player = GameObject.Find("aaaaaa");                          /// find player by NAME
-        Destroy(aggrosphere.gameObject);
+       // Destroy(aggrosphere.gameObject);
         //gameObject.name = "currentship";
+        distance = GetComponent<playerlookatmouse>().distance;
+        isrevealed = false;
     }
 
     void FixedUpdate()
@@ -31,10 +35,23 @@ public class playermove : MonoBehaviour
         float moveVertical = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
         rb.AddForce(movement * speed);
+
+        if (isrevealed == true)
+        {
+            
+            cd--;
+            if (cd <= 0)
+            {
+                isrevealed = false;
+                cd = 100;
+            }
+        }
+     
     }
     public void Jumpback()
     {
         childObj2 = GameObject.FindWithTag("HeroicUnitTemp");
+        
         //Destroy(gameObject);
         GetComponent<playerlookatmouse>().enabled = false;
         GetComponent<playermove>().enabled = false;
@@ -55,11 +72,15 @@ public class playermove : MonoBehaviour
         GetComponentInChildren<spawnbulletdefender>().enabled = true;
         GetComponentInChildren<spawnbulletdefender>().defbullet = GetComponentInChildren<spawnbullet>().currentbullet;
         GetComponent<deflookatenemy>().enabled = true;
+        player.tag = "Player";
         gameObject.name = "namelessone";
         //GetComponent<deflookatenemy>().speed = 0f;
     }
     private void Update()
     {
+        distance = GetComponent<playerlookatmouse>().distance;
+        aggrosphere.transform.localScale = new Vector3(distance / 2, 0, distance / 2);
+
         if (Input.GetKeyDown(KeyCode.T) && (gameObject.name != "aaaaaa"))
         {
 
@@ -94,8 +115,15 @@ public class playermove : MonoBehaviour
             if (other.gameObject.CompareTag("enbullet"))
             {
                 playerhealth--;
-                Destroy(other.gameObject);
+                //Destroy(other.gameObject);
+                AudioSource destroyed = GetComponent<AudioSource>();
+
+                destroyed.Play();
             }
         }
-    }
+        if (other.gameObject.CompareTag("detectionbullet"))
+        {
+            isrevealed = true;
+        }
+        }
 }

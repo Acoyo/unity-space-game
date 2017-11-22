@@ -21,6 +21,9 @@ TagManager:
   - enemybase
   - bulletknockback
   - bullethealing
+  - spinner
+  - detectionbullet
+  - closequarters
   layers:
   - Default
   - TransparentFX

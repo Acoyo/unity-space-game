@@ -25,8 +25,8 @@ public class moverTeleport : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1)&&(mouseclick.bulletteleport == false))
-        {
+       // if (Input.GetMouseButtonDown(1)&&(mouseclick.bulletteleport == false))
+       // {
             ////mouseclick.bulletteleport = true;
             //player = GameObject.Find("aaaaaa");
             //rend = player.GetComponent<Renderer>();
@@ -38,7 +38,7 @@ public class moverTeleport : MonoBehaviour
             //Destroy(gameObject);
             //transform.position = Vector3.MoveTowards(transform.position, target.position, speed);
             //mouseclick.bulletteleport = true;
-        }
+       // }
     }
     void FixedUpdate()
     {
@@ -89,10 +89,7 @@ public class moverTeleport : MonoBehaviour
         Instantiate(bullet, new Vector3(orig.position.x, orig.position.y, orig.position.z), orig.rotation);
         //Instantiate(bullet, new Vector3(orig.position.x, orig.position.y, orig.position.z + 2), orig.rotation);
     }
-    void OnMouseDown()
-    {
-
-    }
+  
 
     void OnTriggerEnter(Collider other)
     {

@@ -6,9 +6,12 @@ public class spawnbulletenemy : MonoBehaviour
 {
     public GameObject enbullet;
     public GameObject enbullet2;
+    public GameObject detectionbullets;
     public GameObject currentbullet;
+    public Transform bulletspawnback;
     //public Transform orig;
     public Transform mousepos;
+    public int countdowndetection;
     public int countdown=200;
     public int coundownattackspeed=100;
 
@@ -33,15 +36,25 @@ public class spawnbulletenemy : MonoBehaviour
     {
         distance = Vector3.Distance(transform.position, FindClosestEnemy().transform.position);
         countdown--;
-        if ((countdown <= 0)&& (distance <= maxdist) && (distance >= mindist))
+        countdowndetection--;
+        if ((countdown <= 0)&& (distance <= maxdist) && (distance >= mindist)&&(GetComponentInParent<lookatplayer>().canseeyou==true))
         {
             firebullet();
             countdown = coundownattackspeed;
             coundownattackspeed = GetComponentInParent<shipstats>().attackspeed;
         }
+        if ((countdowndetection <= 0) && (distance <= maxdist*1.5f))
+        {
+            detectionbullet();
+            countdowndetection = 5;
+        }
+        }
+    void detectionbullet()
+    {
+        Instantiate(detectionbullets, new Vector3(bulletspawnback.position.x, bulletspawnback.position.y, bulletspawnback.position.z), bulletspawnback.rotation);
     }
 
-    void firebullet()
+        void firebullet()
     {
         if (temp == 0)
         {

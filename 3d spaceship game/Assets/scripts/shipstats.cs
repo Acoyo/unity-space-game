@@ -8,6 +8,7 @@ public class shipstats : MonoBehaviour {
     public int shiphealthdisplay2;
     public int shiphealthdisplay3;
     public int attackspeed;
+    public AudioSource destroyed;
 
     public GameObject healthbar;
     public GameObject healthbar2;
@@ -27,6 +28,7 @@ public class shipstats : MonoBehaviour {
         if (shiphealth <= 0)
         {
             shiphealthdisplay = 0;
+           // destroyed.Play();
         }
         if (shiphealth >= 5)
         {

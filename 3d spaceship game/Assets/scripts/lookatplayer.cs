@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections;
 
+[RequireComponent(typeof(AudioSource))]
 public class lookatplayer : MonoBehaviour
 {
     //public Transform target;
@@ -15,13 +17,23 @@ public class lookatplayer : MonoBehaviour
     public float distance;
     public float distancefrombase;
     public int aggrotime=200;
+    public GameObject destroyed;
+    public bool aggrotrue=false;
+    public bool canseeyou = false;
+
 
     public float mindist=5f;
     public float maxdist = 20f;
+    public float maxdistcopy;
     public int shiphealthenemy;
     public int countdown;
     public int countdownstun;
     public int countdownstunduration;
+    public int countdowndif=0;
+    public GameObject cam;
+    public GameObject mouseclick;
+    private Rigidbody thisbody;
+    private bool closequarters=false;
 
 
     public Material defendermat;
@@ -30,74 +42,120 @@ public class lookatplayer : MonoBehaviour
   
     private void Start()
     {
+        thisbody = GetComponent<Rigidbody>();
         canmove = true;
         //shiphealthenemy = GetComponent<shipstats>().shiphealth;
         target2 = GameObject.Find("aaaaaa");
         enemybase = GameObject.Find("enemy base");
-        aggrosphere.gameObject.SetActive(false);
+        //aggrosphere.gameObject.SetActive(false);
         countdown = 0;
         speeddouble = speed * 2;
+        cam = GameObject.Find("Main Camera");
+        AudioSource destroyed = GetComponent<AudioSource>();
+        maxdistcopy = maxdist;
+        distance = 100;
+        canseeyou = false;
+        transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = enemybasetransform().transform.position;
 
-     
 
     }
+   
     public void speeddoubled()
     {
         speeddouble = speed * 1.2f;
     }
     void FixedUpdate()
     {
-        if (FindClosestEnemy().transform.position == null)
+        enemybasetransform();
+        waitthenactivate();
+        //thisbody.velocity = Vector3.zero;
+        countdowndif--;
+        if (countdowndif <= 0)
         {
-            FindClosestEnemy();
+            canmove = false;
+            thisbody.velocity = Vector3.zero;
+            countdowndif = 500;
+            canmove = true;
+        }
+        enemybase = enemybasetransform();
+        {
+            if (countdown <= 0)
+            {
+                aggrotrue = false;
+            }
+            if (aggrotrue == false)
+            {
+                maxdist = maxdistcopy;
+            }
+        }
+        {
+          
         }
         //FindClosestEnemy();
         countdownstun--;
         countdown--;
-        if (countdownstun <= 0)
+        if (countdownstun == 0)
         {
+            thisbody.velocity = Vector3.zero;
             canmove = true;
         }
 
         if (canmove == true)
         {
             distance = Vector3.Distance(gameObject.transform.position, FindClosestEnemy().transform.position);
+            distancefrombase = Vector3.Distance(gameObject.transform.position, enemybasetransform().transform.position);
 
-            aggrosphere.transform.localScale = new Vector3(maxdist * 2, 0, maxdist * 2);
+           // aggrosphere.transform.localScale = new Vector3(maxdist, 0, maxdist);
 
-            if (countdown == 1)
-            {
-                maxdist = maxdist / 2;
-               // canmove = true;
-            }
-            {
-
-            }
-            if ((distance < maxdist + 10)&& (FindClosestEnemy().transform != null))
+            //if (countdown == 1)
+            //{
+            //    maxdist = maxdist / 2;
+            //   // canmove = true;
+            //}
             {
 
-                aggrosphere.gameObject.SetActive(true);
-                transform.LookAt(FindClosestEnemy().transform.position);
             }
-            if ((distance > maxdist + 10))
-            {
-                aggrosphere.gameObject.SetActive(false);
-            }
-            if ((distance > mindist) && (distance < maxdist) && (FindClosestEnemy().transform != null))
-            {
-                transform.position = Vector3.MoveTowards(transform.position, FindClosestEnemy().transform.position, speed);
+            //if ((distance < maxdist + 10)&& (FindClosestEnemy().transform != null))
+            //{
 
-            }
-            if (distance > (maxdist) && (fakeplayer().transform != null))                ///  move towards enemy base if one exists
+            //    aggrosphere.gameObject.SetActive(true);
+            //    transform.LookAt(FindClosestEnemy().transform.position);
+            //}
+            //else if ((distance > maxdist + 10))
+            //{
+            //    aggrosphere.gameObject.SetActive(false);
+            //}
+            if (closequarters == true)
             {
-                distancefrombase = Vector3.Distance(gameObject.transform.position, fakeplayer().transform.position);
-                transform.position = Vector3.MoveTowards(transform.position, fakeplayer().transform.position, speed);
-                if (distancefrombase < 30)
+                if ((distance > mindist) && (distance < maxdist) && (canseeyou == true))// && (FindClosestEnemy().transform != null))
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, fakeplayer().transform.position, speeddouble);
-                    //transform.RotateAround(fakeplayer().transform.position, Vector3.up, 20 * Time.deltaTime * speed);
+                    transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = FindClosestEnemy().transform.position;
+                    transform.LookAt(FindClosestEnemy().transform.position);
+                    // fakeplayer()    
                 }
-                transform.LookAt(fakeplayer().transform.position);
+            }
+            if (closequarters == false)
+            {
+                if ((distance > mindist) && (distance < maxdist) && (canseeyou == true))// && (FindClosestEnemy().transform != null))
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, fakeplayer().transform.position, speed);
+                    transform.LookAt(FindClosestEnemy().transform.position);
+                    // fakeplayer()    
+                }
+            }
+             if ((canseeyou == false))                ///  move towards enemy base if one exists
+            {
+
+                //if (distancefrombase > 50)
+                if(enemybasetransform().tag=="enemybase")
+                //transform.position = Vector3.MoveTowards(transform.position, enemybasetransform().transform.position, speed);
+                transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = enemybasetransform().transform.position;
+                //transform.position = Vector3.MoveTowards(transform.position, fakeplayer().transform.position, speeddouble);
+                //transform.RotateAround(fakeplayer().transform.position, Vector3.up, 20 * Time.deltaTime * speed);
+
+
+
+
             }
         }
     }
@@ -105,6 +163,27 @@ public class lookatplayer : MonoBehaviour
     {
         GameObject[] gos;
         gos = GameObject.FindGameObjectsWithTag("Player");
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        //int healthinf = 1000;
+        Vector3 position = transform.position;
+        foreach (GameObject go in gos)
+        {
+            Vector3 diff = go.transform.position - position;
+            //int health = go.GetComponent<shipstats>().shiphealth;
+            float curDistance = diff.sqrMagnitude;
+            if ((curDistance < distance) && (go.GetComponent<playermove>().isrevealed == true))
+            {
+                closest = go;
+                distance = curDistance;
+            }
+        }
+        return closest;
+    }
+    public GameObject fakeplayer()
+    {
+        GameObject[] gos;
+        gos = GameObject.FindGameObjectsWithTag("fakeplayer");
         GameObject closest = null;
         float distance = Mathf.Infinity;
         //int healthinf = 1000;
@@ -122,7 +201,7 @@ public class lookatplayer : MonoBehaviour
         }
         return closest;
     }
-    public GameObject fakeplayer()
+    public GameObject enemybasetransform()
     {
         GameObject[] gos;
         gos = GameObject.FindGameObjectsWithTag("enemybase");
@@ -141,32 +220,60 @@ public class lookatplayer : MonoBehaviour
         }
         return closest;
     }
-    void OnTriggerEnter(Collider other)
+    public void destroyunit()
     {
+        Instantiate(destroyed, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        Destroy(gameObject);
+    }
+    IEnumerator waitthenactivate()
+    {
+       
+        yield return new WaitForSeconds(2);
+        enemybasetransform();
+        thisbody.velocity = Vector3.zero;
+        canmove = false;
+        canmove = true;
 
-        if (other.gameObject.CompareTag("bullet")&&(gameObject.tag== "enemy"))
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("closequarters") && (gameObject.tag == "enemy"))
+        {
+            closequarters = false;
+        }
+    }
+        void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("closequarters") && (gameObject.tag == "enemy"))
+        {
+            closequarters = true;
+        }
+            if (other.gameObject.CompareTag("bullet")&&(gameObject.tag== "enemy"))
         {
            // canmove = false;
             Destroy(other.gameObject);
             //countdownstun = countdownstunduration;
             if (gameObject.tag == "enemy")
             {
-                maxdist = maxdist * 2;
-                if (maxdist > 75)
+                AudioSource destroyed = GetComponent<AudioSource>();
+
+                destroyed.Play();
+                //yield return new WaitForSeconds(5);
+                countdown = aggrotime;
+               // maxdist = maxdist * 2;
+                aggrotrue = true;
+                if (maxdist > maxdistcopy*2)
                 {
-                    maxdist = 75;
+                    maxdist = maxdistcopy * 2;
                 }
-                countdown = aggrotime;                                     //time enemy aggro duration
+                //countdown = aggrotime;                                     //time enemy aggro duration
                 GetComponent<shipstats>().shiphealth--;
                // shiphealthenemy--;
                 if (GetComponent<shipstats>().shiphealth <= 0)
                 {
-                    Destroy(gameObject);
+                    destroyunit();
                 }
-
-
-            }
-            
+            }          
         }
         if (other.gameObject.CompareTag("bulletknockback") && (gameObject.tag == "enemy"))
         {
@@ -175,20 +282,47 @@ public class lookatplayer : MonoBehaviour
             countdownstun = countdownstunduration;
             if (gameObject.tag == "enemy")
             {
-            
+                AudioSource destroyed = GetComponent<AudioSource>();
+
+                destroyed.Play();
                 //countdown = 500;                                     //time enemy aggro duration
                 GetComponent<shipstats>().shiphealth--;
                 
                 if (GetComponent<shipstats>().shiphealth <= 0)
                 {
-                    Destroy(gameObject);
+                    destroyunit();
+
                 }
 
 
             }
 
         }
-        if (other.gameObject.CompareTag("bulletmindcontrol"))
+        if (other.gameObject.CompareTag("spinner") && (gameObject.tag == "enemy"))
+        {
+            canmove = false;
+           // Destroy(other.gameObject);
+            countdownstun = countdownstunduration;
+            if (gameObject.tag == "enemy")
+            {
+
+                //countdown = 500;                                     //time enemy aggro duration
+                GetComponent<shipstats>().shiphealth-=1;
+
+                if (GetComponent<shipstats>().shiphealth <= 0)
+                {
+                    destroyunit();
+                }
+
+
+            }
+
+        }
+        if (other.gameObject.CompareTag("enemy") && (gameObject.tag == "enemy"))
+        {
+            thisbody.velocity = Vector3.zero;
+        }
+            if (other.gameObject.CompareTag("bulletmindcontrol"))
         {
             Renderer rend = GetComponent<Renderer>();
         
@@ -197,13 +331,13 @@ public class lookatplayer : MonoBehaviour
             playersbulletspawn = GameObject.FindWithTag("HeroicUnit");
             GetComponent<playerlookatmouse>().enabled = true;
             GetComponent<playermove>().enabled = true;
-        
+            playersbulletspawn.gameObject.tag = "HeroicUnitTemp";
             GetComponentInChildren<spawnbulletenemy>().enabled = false;
             GetComponentInChildren<spawnbullet>().enabled = true;
             gameObject.tag = "Player";                                          ///
-           // target2.gameObject.tag = "Untagged";                                    ////
+            target2.gameObject.tag = "Untagged";                                    ////
             childObj.gameObject.tag = "HeroicUnit";
-            playersbulletspawn.gameObject.tag = "HeroicUnitTemp";
+            
             //other.gameObject.SetActive(false);
             childObj.gameObject.SetActive(true);
             target2.GetComponent<playerlookatmouse>().enabled = false;
@@ -213,8 +347,9 @@ public class lookatplayer : MonoBehaviour
             GetComponent<deflookatenemy>().enabled = false;
             GetComponentInChildren<spawnbulletdefender>().enabled = false;
             GetComponent<lookatplayer>().enabled = false;
-    
+            GetComponent<UnityEngine.AI.NavMeshAgent>().enabled=false;
 
         }
+        waitthenactivate();
     }
 }

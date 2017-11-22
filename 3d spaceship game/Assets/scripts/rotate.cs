@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class rotate : MonoBehaviour {
    // public int randone = 21; //(Random.Range(15, 20));
-    public Transform player;
+    public GameObject target;
+    public Transform targettemp;
     public float speed;
     // Use this for initialization
     void Start () {
         //randone = (Random.Range(15, 20));
-        
+        target= GameObject.Find("middletemp(Clone)");
+        targettemp = target.transform;
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         //randone = (Random.Range(15, 20));
-        transform.RotateAround(player.transform.position, Vector3.up, 20 * Time.deltaTime * speed);
+        target = GameObject.Find("middletemp(Clone)");
+        targettemp = target.transform;
+        transform.RotateAround(targettemp.transform.position, Vector3.up, 20 * Time.deltaTime * speed);
     }
 }
