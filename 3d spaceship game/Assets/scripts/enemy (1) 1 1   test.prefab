@@ -237,8 +237,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1992160657710250}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -37.17573, y: 2.95, z: 246.87}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: -37.17573, y: 2, z: 246.87}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4363647978480006}
   - {fileID: 4914141603115816}
@@ -310,7 +310,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1340267431183028}
   m_LocalRotation: {x: -0, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.028103637, y: -0.839657, z: 1.867}
+  m_LocalPosition: {x: 0.028103637, y: 0, z: 1.867}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4103787908943812}
@@ -588,7 +588,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 14197bb524099d74c83fbe7d9cc24568, type: 2}
+  - {fileID: 2100000, guid: b7a5330d652540c4f9b4ebac76216994, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -829,7 +829,7 @@ Rigidbody:
   m_GameObject: {fileID: 1992160657710250}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0.15
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -878,7 +878,7 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1992160657710250}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0e3341034f8fb154e842e2a8239838ac, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1012,10 +1012,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shiphealth: 12
+  maxhealth: 12
   shiphealthdisplay: 0
   shiphealthdisplay2: 0
   shiphealthdisplay3: 0
-  attackspeed: 100
+  attackspeed: 70
   destroyed: {fileID: 0}
   healthbar: {fileID: 1912328909156018}
   healthbar2: {fileID: 1411948562238840}
@@ -1045,16 +1046,19 @@ MonoBehaviour:
   destroyed: {fileID: 1149618795566552, guid: 71df6912c17858d429523abfced594e2, type: 2}
   aggrotrue: 0
   canseeyou: 0
-  mindist: 15
+  mindist: 10
   maxdist: 160
   maxdistcopy: 0
   shiphealthenemy: 0
   countdown: 0
   countdownstun: 0
-  countdownstunduration: 10
+  countdownstunduration: 5
   countdowndif: 0
+  cdhealing: 0
+  healingcooldown: 100
   cam: {fileID: 0}
   mouseclick: {fileID: 1175532855839020, guid: 6ef192bdb92d43d47ae4c51295ce4def, type: 2}
+  ishealing: 0
   defendermat: {fileID: 0}
   canmove: 0
 --- !u!114 &114565123380240398

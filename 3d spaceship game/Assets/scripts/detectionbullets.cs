@@ -29,6 +29,26 @@ public class detectionbullets : MonoBehaviour {
         {
             return;
         }
+        else if (other.gameObject.CompareTag("enemybase"))
+        {
+            return;
+        }
+        else if (other.gameObject.CompareTag("closequarters"))
+        {
+            return;
+        }
+        else if (other.gameObject.CompareTag("fakeplayer"))
+        {
+            return;
+        }
+        else if (other.gameObject.CompareTag("spinner"))
+        {
+            return;
+        }
+        else if (other.gameObject.CompareTag("enemybasehealing"))
+        {
+            return;
+        }
         else if (other.gameObject.CompareTag("enemy"))
         {
             return;

@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 96555685315634998}
   - component: {fileID: 82019878616162940}
   m_Layer: 0
-  m_Name: averagebullet
+  m_Name: bullet simple
   m_TagString: bulletknockback
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

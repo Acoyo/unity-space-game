@@ -17,7 +17,7 @@ public class turntriggeroffon : MonoBehaviour {
 
         if (countdown <= 0)
         {
-            GetComponent<Collider>().enabled = true;
+            //GetComponent<Collider>().enabled = true;
 
         }
     }

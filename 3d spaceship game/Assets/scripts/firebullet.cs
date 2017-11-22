@@ -48,6 +48,18 @@ public class firebullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (other.gameObject.CompareTag("wall"))
+        {
+            Destroy(gameObject);
+        }
+        if (other.gameObject.CompareTag("enemybase"))
+        {
+            //Destroy(gameObject);
+        }
+        if (other.gameObject.CompareTag("enemybasehealing"))
+        {
+            return;
+        }
         if (other.gameObject.CompareTag("enemy"))
         {
             if (gameObject.tag == "bullethealing")

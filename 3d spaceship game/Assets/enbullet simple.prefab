@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 54467825170794240}
   - component: {fileID: 114647556384994626}
   - component: {fileID: 82974368561057066}
+  - component: {fileID: 114110718496361736}
   m_Layer: 0
   m_Name: enbullet simple
   m_TagString: enbullet
@@ -57,8 +58,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1685073569953630}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 2.9818244, y: -0.74524915, z: 4.2292256}
-  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_LocalPosition: {x: -578.39996, y: 932.5786, z: -132.38799}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4780446252676386}
   m_Father: {fileID: 0}
@@ -91,7 +92,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: f937c4e0a78a33c4f813d7a258204b23, type: 2}
+  - {fileID: 2100000, guid: d3e7be8308c18d94e9d6d8a1eed3af36, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -172,7 +173,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!82 &82974368561057066
 AudioSource:
@@ -254,6 +255,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114110718496361736
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1685073569953630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e91044ba4831704796bf396c1ef734c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 10
 --- !u!114 &114647556384994626
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -291,7 +304,7 @@ SphereCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1685073569953630}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 0e3341034f8fb154e842e2a8239838ac, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

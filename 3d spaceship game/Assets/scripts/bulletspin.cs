@@ -35,7 +35,7 @@ public class bulletspin : MonoBehaviour
             gameObject.tag = "spinner";
 
         }
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if ((Input.GetKeyDown(KeyCode.LeftShift)) || (Input.GetMouseButtonDown(1)))
 
         {
             Destroy(target.gameObject);

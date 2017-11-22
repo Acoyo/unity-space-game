@@ -28,7 +28,7 @@ public class spawnbulletenemy : MonoBehaviour
     {
         temp = Random.Range(0, 2);
         coundownattackspeed = GetComponentInParent<shipstats>().attackspeed;
-     
+        GetComponentInParent<shipstats>().attackspeed = GetComponentInParent<shipstats>().attackspeed + Random.Range(10, 19);
     }
 
 

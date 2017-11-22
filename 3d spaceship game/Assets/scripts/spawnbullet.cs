@@ -118,10 +118,10 @@ public class spawnbullet : MonoBehaviour {
             }
 
 
-            if (Input.GetMouseButton(1) && (ship.gameObject.tag == "Player") && (countdown == 0))
+            if (Input.GetMouseButtonDown(1) && (ship.gameObject.tag == "Player"))// && (countdown == 0))
             {
                 //if(mouseclick.bulletteleport==false)
-                firerightmouse();
+                firecurvebullets();
             }
 
 

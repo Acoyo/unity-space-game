@@ -12,7 +12,7 @@ public class rotatearound : MonoBehaviour
     void Start()
     {
         //randone = (Random.Range(15, 20));
-        target = GameObject.FindWithTag("Player");
+       // target = GameObject.FindWithTag("Player");
         //targettemp = target.transform;
     }
 

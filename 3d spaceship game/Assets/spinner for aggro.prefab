@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 96221424649591318}
   m_Layer: 0
   m_Name: spinner for aggro (1)
-  m_TagString: Untagged
+  m_TagString: spinner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 96324727911311126}
   m_Layer: 0
   m_Name: spinner for aggro
-  m_TagString: Untagged
+  m_TagString: bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -400,7 +400,7 @@ MonoBehaviour:
     type: 2}
   target: {fileID: 0}
   twin: {fileID: 0}
-  countdown: 100
+  countdown: 10
   distfromtwin: {x: 0, y: 0, z: 0}
   distancefromtwin2: 0
 --- !u!114 &114653082521216484
@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58974a1fb107ea04388ef9367671caec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  countdown: 10
+  countdown: 16
 --- !u!135 &135484608995330710
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -439,7 +439,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2.9
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &135787786147656382
 SphereCollider:
@@ -449,7 +449,7 @@ SphereCollider:
   m_GameObject: {fileID: 1052405653164192}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
