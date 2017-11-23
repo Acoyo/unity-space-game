@@ -69,20 +69,20 @@ public class lookatplayer : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (canseeyou == false)               ///  move towards enemy base if one exists
+        if (canseeyou == false)// &&(canmove==true))              ///  move towards enemy base if one exists
         {
             //if(enemybasetransform().tag=="enemybase")
             transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = enemybasetransform().transform.position;
-            transform.LookAt(FindClosestEnemy().transform.position);
+            transform.LookAt(enemybasetransform().transform.position);
 
         }
         if (distance > maxdist)
         {
             canseeyou = false;
         }
-        // enemybasetransform();
-        //waitthenactivate();
-        //thisbody.velocity = Vector3.zero;
+         enemybasetransform();
+        waitthenactivate();
+        thisbody.velocity = Vector3.zero;
         countdowndif--;
         if (countdowndif <= 0)
         {
@@ -250,8 +250,8 @@ public class lookatplayer : MonoBehaviour
         yield return new WaitForSeconds(2);
         enemybaselowesthealth();
         thisbody.velocity = Vector3.zero;
-      //  canmove = false;
-       // canmove = true;
+        canmove = false;
+        canmove = true;
 
     }
     IEnumerator enemybasehealing()
@@ -285,9 +285,9 @@ public class lookatplayer : MonoBehaviour
         if (other.gameObject.CompareTag("enemybasehealing") && (gameObject.tag == "enemy"))
         {
             //ishealing = true;
-            if (enemybaselowesthealth().GetComponent<enemybase>().enemybasehealth < 100f)
+           // if (enemybaselowesthealth().GetComponent<enemybase>().enemybasehealth < 100f)
             {
-                enemybaselowesthealth().GetComponent<enemybase>().enemybasehealth += .1f;
+             //   enemybaselowesthealth().GetComponent<enemybase>().enemybasehealth += .1f;
             }
         }
     }
@@ -305,7 +305,7 @@ public class lookatplayer : MonoBehaviour
         }
             if (other.gameObject.CompareTag("bullet")&&(gameObject.tag== "enemy"))
         {
-            canmove = false;
+           // canmove = false;
             //Destroy(other.gameObject);
             countdownstun = countdownstunduration;
             if (gameObject.tag == "enemy")
@@ -327,7 +327,7 @@ public class lookatplayer : MonoBehaviour
         }
         if (other.gameObject.CompareTag("bulletknockback") && (gameObject.tag == "enemy"))
         {
-            canmove = false;
+            //canmove = false;
             Destroy(other.gameObject);
             countdownstun = countdownstunduration;
             if (gameObject.tag == "enemy")

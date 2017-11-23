@@ -10,6 +10,7 @@ public class playerlookatmouse : MonoBehaviour {
     public GameObject middletran;
     public float middle;
     public float distance;
+    static public float mousedistancefromplayer;
     public float half = .5f;
     // Use this for initialization
     void Start () {
@@ -23,5 +24,8 @@ public class playerlookatmouse : MonoBehaviour {
 
         //middletran.transform.position= ((player.transform.position) - (sphere.transform.position/2));
     }
-   
+    private void Update()
+    {
+        mousedistancefromplayer = distance;
+    }
 }

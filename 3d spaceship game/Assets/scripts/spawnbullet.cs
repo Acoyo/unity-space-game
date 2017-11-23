@@ -10,13 +10,20 @@ public class spawnbullet : MonoBehaviour {
     public GameObject bullet5;
     public GameObject bulletleft;
     public GameObject bulletright;
+    public GameObject bulletwhite;
     public GameObject ship;
     public GameObject currentbullet;
     public Transform middle;
     public Transform middletemp;
     public GameObject heroic;
 
-    public Transform orig;
+    public Transform bulletSPAWN;
+    public Transform sidetosidetrans;
+    public Transform sidetosidetransRev;
+    public Transform STSlooks;
+    public Transform STSRevlooks;
+    public Transform bulletleftspawn;
+    public Transform bulletrightspawn;
     public Transform centreofplayer;
     public Transform mousepos;
     public bool bulletswitch = false;
@@ -29,7 +36,7 @@ public class spawnbullet : MonoBehaviour {
     }
     void Start () {
         heroic = GameObject.FindWithTag("HeroicUnit");
-        orig = GetComponent<Transform>();
+        //bulletSPAWN = GetComponent<Transform>();
         currentbullet = bullet;
         coundownattackspeed = GetComponentInParent<shipstats>().attackspeed;
         if (gameObject.name != "aaaaaa")
@@ -63,8 +70,24 @@ public class spawnbullet : MonoBehaviour {
                 mouseclick.bulletoff = false;
 
                 fireleftmouse();
+                sidetosidebulletslooks();
+                    sidetosidebullets();
 
             }
+            if (Input.GetKey(KeyCode.LeftShift) && (ship.gameObject.tag == "Player") && (countdown == 0))
+
+            {
+                // duofire();
+                fireleftmouse();
+               // sidetosidebullets();
+                Debug.Log("yo");
+            }
+            //if (Input.GetKeyDown(KeyCode.LeftShift) && (ship.gameObject.tag == "Player") && (countdown == 0))
+
+            //{
+            //    duofire();
+            //    Debug.Log("yo");
+            //}
         }
     }
 
@@ -110,12 +133,7 @@ public class spawnbullet : MonoBehaviour {
             {
                 firebullet();
             }
-            if (Input.GetKeyDown(KeyCode.LeftShift))
-
-            {
-                firecurvebullets();
-                Debug.Log("yo");
-            }
+           
 
 
             if (Input.GetMouseButtonDown(1) && (ship.gameObject.tag == "Player"))// && (countdown == 0))
@@ -137,13 +155,32 @@ public class spawnbullet : MonoBehaviour {
     }
     void firerightmouse()
     {
-        Instantiate(bullet3, new Vector3(orig.position.x, orig.position.y, orig.position.z), orig.rotation);
+        Instantiate(bullet3, new Vector3(bulletSPAWN.position.x, bulletSPAWN.position.y, bulletSPAWN.position.z), bulletSPAWN.rotation);
+    }
+
+    void sidetosidebullets()
+    {
+        Instantiate(currentbullet, new Vector3(sidetosidetrans.position.x, sidetosidetrans.position.y, sidetosidetrans.position.z), sidetosidetrans.rotation);
+        Instantiate(currentbullet, new Vector3(sidetosidetransRev.position.x, sidetosidetransRev.position.y, sidetosidetransRev.position.z), sidetosidetransRev.rotation);
+
+    }
+    void sidetosidebulletslooks()
+    {
+        Instantiate(bulletwhite, new Vector3(STSlooks.position.x, STSlooks.position.y, STSlooks.position.z), STSlooks.rotation);
+        Instantiate(bulletwhite, new Vector3(STSRevlooks.position.x, STSRevlooks.position.y, STSRevlooks.position.z), STSRevlooks.rotation);
+
+    }
+    void duofire()
+    {
+        Instantiate(currentbullet, new Vector3(bulletleftspawn.position.x, bulletleftspawn.position.y, bulletleftspawn.position.z), bulletleftspawn.rotation);
+        Instantiate(currentbullet, new Vector3(bulletrightspawn.position.x, bulletrightspawn.position.y, bulletrightspawn.position.z), bulletrightspawn.rotation);
+
     }
     void firecurvebullets()
     {
         Instantiate(middle, new Vector3(middletemp.position.x, middletemp.position.y, middletemp.position.z), middletemp.rotation);
-        Instantiate(bulletleft, new Vector3(orig.position.x, orig.position.y, orig.position.z+4), orig.rotation);
-        Instantiate(bulletright, new Vector3(orig.position.x, orig.position.y, orig.position.z+4), orig.rotation);
+        Instantiate(bulletleft, new Vector3(bulletSPAWN.position.x, bulletSPAWN.position.y, bulletSPAWN.position.z+4), bulletSPAWN.rotation);
+        Instantiate(bulletright, new Vector3(bulletSPAWN.position.x, bulletSPAWN.position.y, bulletSPAWN.position.z+4), bulletSPAWN.rotation);
         //middle.name = "middle";
         
         //middle.name = "middle";
@@ -154,13 +191,13 @@ public class spawnbullet : MonoBehaviour {
         if (gameObject.name == "pbullet spawn")
         {
             
-            Instantiate(currentbullet, new Vector3(orig.position.x, orig.position.y, orig.position.z), orig.rotation);
+            Instantiate(currentbullet, new Vector3(bulletSPAWN.position.x, bulletSPAWN.position.y, bulletSPAWN.position.z), bulletSPAWN.rotation);
             currentbullet.name = "playerbullet";
         }
         else if (gameObject.name != "pbullet spawn")
         {
             //currentbullet.name = "playerbullet";
-            Instantiate(currentbullet, new Vector3(orig.position.x, orig.position.y, orig.position.z), orig.rotation);
+            Instantiate(currentbullet, new Vector3(bulletSPAWN.position.x, bulletSPAWN.position.y, bulletSPAWN.position.z), bulletSPAWN.rotation);
             currentbullet.name = "averagebullet";
         }
     }

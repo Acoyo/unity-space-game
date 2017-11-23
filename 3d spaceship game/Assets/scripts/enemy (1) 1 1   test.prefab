@@ -1052,7 +1052,7 @@ MonoBehaviour:
   shiphealthenemy: 0
   countdown: 0
   countdownstun: 0
-  countdownstunduration: 5
+  countdownstunduration: 10
   countdowndif: 0
   cdhealing: 0
   healingcooldown: 100
