@@ -27,10 +27,7 @@ public class bulletspin : MonoBehaviour
         countdown--;
         twin = FindClosestEnemy();
         target = GameObject.Find("middletemp(Clone)");
-        //distfromtwin = twin.transform.position - transform.position;
-        //float Distancefromtwin = distfromtwin.sqrMagnitude;
-        //distancefromtwin2 = Distancefromtwin;
-        if (countdown <= 0)
+       
         {
             gameObject.tag = "spinner";
 
@@ -39,7 +36,6 @@ public class bulletspin : MonoBehaviour
 
         {
             Destroy(target.gameObject);
-            //Destroy(other.gameObject);
             Destroy(gameObject);
         }
     }

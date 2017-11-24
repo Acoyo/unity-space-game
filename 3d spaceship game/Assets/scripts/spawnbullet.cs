@@ -11,8 +11,11 @@ public class spawnbullet : MonoBehaviour {
     public GameObject bulletleft;
     public GameObject bulletright;
     public GameObject bulletwhite;
+    public GameObject bulletminispin;
+    public GameObject bulletminispincopy;
     public GameObject ship;
     public GameObject currentbullet;
+    public GameObject player;
     public Transform middle;
     public Transform middletemp;
     public GameObject heroic;
@@ -50,6 +53,7 @@ public class spawnbullet : MonoBehaviour {
                 currentbullet = bullet;
             }
         }
+        //transform.rotation = Quaternion.Euler(0, 90, 0);
 
     }
     void FixedUpdate()
@@ -78,7 +82,7 @@ public class spawnbullet : MonoBehaviour {
 
             {
                 // duofire();
-                fireleftmouse();
+                fireminispin();
                // sidetosidebullets();
                 Debug.Log("yo");
             }
@@ -149,13 +153,29 @@ public class spawnbullet : MonoBehaviour {
     //{
     //    firebullet();
     //}
-        void firebullet()
+    void boxoftricks()
+    {
+        Instantiate(bulletminispin, new Vector3(bulletSPAWN.position.x, bulletSPAWN.position.y, bulletSPAWN.position.z), bulletSPAWN.rotation);
+        
+    }
+    void firebullet()
     {
         Instantiate(bullet2, new Vector3(centreofplayer.position.x, centreofplayer.position.y, centreofplayer.position.z), centreofplayer.rotation);
     }
     void firerightmouse()
     {
         Instantiate(bullet3, new Vector3(bulletSPAWN.position.x, bulletSPAWN.position.y, bulletSPAWN.position.z), bulletSPAWN.rotation);
+    }
+    void fireminispin()
+    {
+        Instantiate(bulletminispin, new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z), player.transform.rotation);
+        Instantiate(bulletminispin, new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z), player.transform.rotation);
+        Instantiate(bulletminispincopy, new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z), player.transform.rotation);
+        Instantiate(bulletminispincopy, new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z), player.transform.rotation);
+        Instantiate(bulletminispin, new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z), player.transform.rotation);
+        Instantiate(bulletminispin, new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z), player.transform.rotation);
+        Instantiate(bulletminispincopy, new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z), player.transform.rotation);
+        Instantiate(bulletminispincopy, new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z), player.transform.rotation);
     }
 
     void sidetosidebullets()

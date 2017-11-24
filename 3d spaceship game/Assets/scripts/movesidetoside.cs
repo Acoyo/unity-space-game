@@ -41,7 +41,7 @@ public class movesidetoside : MonoBehaviour
             if (Input.GetMouseButton(0))
         {
             mousedistance = playerlookatmouse.mousedistancefromplayer;
-            thedist = playerlookatmouse.mousedistancefromplayer / 10;
+            thedist = playerlookatmouse.mousedistancefromplayer / 20;
             distL = 0 + thedist;
             distR = 0 - thedist;
             if (dirRight)

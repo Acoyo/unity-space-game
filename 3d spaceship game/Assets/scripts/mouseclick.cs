@@ -9,6 +9,8 @@ public class mouseclick : MonoBehaviour {
     static public bool firstclick = true;
     static public bool bulletfollow = true;
     static public bool bulletteleport = false;
+    static public int bulletminispin=0;
+    static public bool minispinbool=false;
     public static int audiochain;
     public int audiochaincopy;
     static public Vector3 mousesave;
