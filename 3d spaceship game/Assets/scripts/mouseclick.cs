@@ -11,12 +11,19 @@ public class mouseclick : MonoBehaviour {
     static public bool bulletteleport = false;
     static public int bulletminispin=0;
     static public bool minispinbool=false;
+    static public int grouphealth;
+    public int grouphealthshow;
+    static public int grouphealthplayer;
+    public int grouphealthplayershow;
+
     public static int audiochain;
     public int audiochaincopy;
     static public Vector3 mousesave;
     public GameObject object2;
     public GameObject cursorback;
     public GameObject player;
+    public float timeset=1f;
+    public static int amountofenemies=0;
     
 
     static public Transform mouseposobj;
@@ -24,6 +31,7 @@ public class mouseclick : MonoBehaviour {
    static  public Transform mousepos;
 	// Use this for initialization
 	void Start () {
+        timeset = 1f;
         audiochain = 0;
         audiochaincopy = 0;
         plantcursor = false;
@@ -47,6 +55,19 @@ public class mouseclick : MonoBehaviour {
     }
     private void Update()
     {
+
+        Time.timeScale = timeset; ;
+        //grouphealthshow = grouphealth;
+        if (grouphealth < 0)
+        {
+            grouphealth = 0;
+        }
+        if (grouphealthplayer < 0)
+        {
+            grouphealthplayer = 0;
+        }
+        grouphealthplayershow = grouphealthplayer;
+        grouphealthshow = grouphealth;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();

@@ -12,6 +12,9 @@ public class firebullet : MonoBehaviour
     public bool lr;
     public float destroyTime=4;
     public Rigidbody thisbody;
+    public GameObject destroyed;
+    public GameObject destroyedcollider;
+
     // Use this for initialization
     void Start()
     {
@@ -23,10 +26,25 @@ public class firebullet : MonoBehaviour
         // transform.Translate(Vector3.forward * Time.deltaTime);
         //transform.Translate(Vector3.up * Time.deltaTime * speed, Space.World);
         Destroy(gameObject, destroyTime);
+        
+        if (gameObject.tag == "enbullet")
+        {
+            StartCoroutine(wait2seconds());
+            //yield return new WaitForSeconds(1.95f);
+            //Instantiate(destroyed, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        }
     }
-  
+    IEnumerator wait2seconds()
+    {
+        //print(Time.time);
+        yield return new WaitForSeconds(3.9f);
+        Instantiate(destroyed, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        Instantiate(destroyedcollider, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+
+        // print(Time.time);
+    }
     // Update is called once per frame
- 
+
     void Update()
     {
         //thisbody.AddForce(0, 0, 20, ForceMode.Impulse);
@@ -44,11 +62,11 @@ public class firebullet : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("enbullet"))
+        if (other.gameObject.CompareTag("enbullet") && (gameObject.tag == "bulletknockback"))
         {
             Destroy(gameObject);
         }
-        if (other.gameObject.CompareTag("wall"))
+        if (other.gameObject.CompareTag("wall")&& (gameObject.tag == "bulletknockback"))
         {
             Destroy(gameObject);
         }
@@ -75,6 +93,7 @@ public class firebullet : MonoBehaviour
             if (gameObject.tag == "bullethealing")
             {
                 other.GetComponent<shipstats>().shiphealth++;
+                
                 Destroy(gameObject);
             }
             //Destroy(other.gameObject);

@@ -11,6 +11,7 @@ public class spawnbulletenemy : MonoBehaviour
     public Transform bulletspawnback;
     //public Transform orig;
     public Transform mousepos;
+    public GameObject theplayer;
     public int countdowndetection;
     public int countdown=200;
     public int coundownattackspeed=100;
@@ -34,10 +35,11 @@ public class spawnbulletenemy : MonoBehaviour
 
     void FixedUpdate()
     {
+        theplayer= GameObject.Find("aaaaaa");
         distance = Vector3.Distance(transform.position, FindClosestEnemy().transform.position);
         countdown--;
         countdowndetection--;
-        if ((countdown <= 0)&& (distance <= maxdist) && (distance >= mindist)&&(GetComponentInParent<lookatplayer>().canseeyou==true))
+        if ((countdown <= 0)&& (distance <= maxdist) && (distance >= mindist)&&(GetComponentInParent<lookatplayer>().canseeyou==true))//&&(GetComponentInParent<lookatplayer>().grouphealth >= mouseclick.grouphealthplayer))
         {
             firebullet();
             countdown = coundownattackspeed;
@@ -52,6 +54,7 @@ public class spawnbulletenemy : MonoBehaviour
     void detectionbullet()
     {
         Instantiate(detectionbullets, new Vector3(bulletspawnback.position.x, bulletspawnback.position.y, bulletspawnback.position.z), bulletspawnback.rotation);
+  
     }
 
         void firebullet()

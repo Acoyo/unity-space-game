@@ -35,7 +35,12 @@ public class spawnbullet : MonoBehaviour {
     // Use this for initialization
     private void OnEnable()
     {
-       // heroic= GameObject.FindWithTag("HeroicUnit");
+        GetComponentInParent<shipstats>().attackspeed = 20;
+        countdown = 1;
+    }
+    private void OnDisable()
+    {
+        GetComponentInParent<shipstats>().attackspeed = 50;
     }
     void Start () {
         heroic = GameObject.FindWithTag("HeroicUnit");
@@ -66,23 +71,36 @@ public class spawnbullet : MonoBehaviour {
                 countdown = coundownattackspeed;
 
             }
-            if (Input.GetMouseButton(0) && (ship.gameObject.tag == "Player") && (countdown == 0))
+            if (Input.GetMouseButton(0) && (ship.gameObject.tag == "Player") && (ship.gameObject.name != "aaaaaa") && (countdown == 0))
 
             {
 
                 mouseclick.firstclick = true;
                 mouseclick.bulletoff = false;
+                firebullet();
+              //  fireleftmouse();
+               // sidetosidebulletslooks();
+                 //   sidetosidebullets();
+                //
+            }
+            if (Input.GetMouseButton(0) && (ship.gameObject.tag == "Player") && (ship.gameObject.name == "aaaaaa") && (countdown == 0))
 
-                fireleftmouse();
-                sidetosidebulletslooks();
-                    sidetosidebullets();
+            {
 
+                mouseclick.firstclick = true;
+                mouseclick.bulletoff = false;
+               // firebullet();
+                 fireleftmouse();
+                 //sidetosidebulletslooks();
+                   sidetosidebullets();
+                //
             }
             if (Input.GetKey(KeyCode.LeftShift) && (ship.gameObject.tag == "Player") && (countdown == 0))
 
             {
                 // duofire();
-                fireminispin();
+                firecurvebullets();
+                
                // sidetosidebullets();
                 Debug.Log("yo");
             }
@@ -132,7 +150,7 @@ public class spawnbullet : MonoBehaviour {
             {
                 currentbullet = bullet5;
             }
-            else if (Input.GetKeyDown(KeyCode.Space))
+            else if (Input.GetKeyDown(KeyCode.LeftControl))
 
             {
                 firebullet();
@@ -140,10 +158,10 @@ public class spawnbullet : MonoBehaviour {
            
 
 
-            if (Input.GetMouseButtonDown(1) && (ship.gameObject.tag == "Player"))// && (countdown == 0))
+            if (Input.GetMouseButton(1) && (ship.gameObject.tag == "Player"))// && (countdown == 0))
             {
                 //if(mouseclick.bulletteleport==false)
-                firecurvebullets();
+                fireminispin();
             }
 
 

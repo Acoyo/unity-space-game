@@ -208,11 +208,11 @@ MonoBehaviour:
   target: {fileID: 0}
   targettemp: {fileID: 0}
   bulletdiehere: {fileID: 0}
-  speed: 5
+  speed: 10
   minispinbool: 0
   distancefromdiehere: 0
   dieherepls: {x: 0, y: 0, z: 0}
-  destroytime: 2
+  destroytime: 1
 --- !u!135 &135396478847027094
 SphereCollider:
   m_ObjectHideFlags: 1

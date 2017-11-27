@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 23819134687585616}
   m_Layer: 0
   m_Name: enbullet simple (1)
-  m_TagString: Untagged
+  m_TagString: enbullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -286,6 +286,9 @@ MonoBehaviour:
   lr: 0
   destroyTime: 4
   thisbody: {fileID: 0}
+  destroyed: {fileID: 1091723884859542, guid: 6fd480492f479344bb5c9aa6cdb84153, type: 2}
+  destroyedcollider: {fileID: 1064595915436186, guid: d8b6479780dc2284bb6044bcdf0e5bfc,
+    type: 2}
 --- !u!135 &135605776096107324
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -293,8 +296,8 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1848848234704964}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
+  m_IsTrigger: 1
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.51
   m_Center: {x: 0, y: 0, z: 0}

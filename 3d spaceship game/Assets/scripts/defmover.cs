@@ -37,6 +37,10 @@ public class defmover : MonoBehaviour
      
       
     }
+    private void FixedUpdate()
+    {
+   
+    }
     public GameObject FindClosestEnemy()
     {
         GameObject[] gos;
@@ -58,7 +62,7 @@ public class defmover : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-
+    
         if (other.gameObject.CompareTag("enemy"))
         {
            // Destroy(other.gameObject);

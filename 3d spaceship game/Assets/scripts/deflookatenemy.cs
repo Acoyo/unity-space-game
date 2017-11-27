@@ -16,6 +16,8 @@ public class deflookatenemy : MonoBehaviour
     public bool followplayer = false;
     public bool followenemy = true;
     public int defenderhealth;
+    public bool isrevealed = false;
+    public int cd = -1;
     private void Start()
     {
         //if (GetComponent<lookatplayer>().enabled == true) {
@@ -23,8 +25,13 @@ public class deflookatenemy : MonoBehaviour
         //    defenderhealth= GetComponent<playermove>().defenderhealth;
         //}
         player = GameObject.Find("aaaaaa");
+        isrevealed = true;
         //followplayer = false;
         //followenemy = true;
+    }
+    private void OnEnable()
+    {
+        GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
     }
     void FixedUpdate()
     {
@@ -35,6 +42,25 @@ public class deflookatenemy : MonoBehaviour
             countdown = 20;
 
         }
+        if (isrevealed == true)
+        {
+
+            cd--;
+            if (cd <= 0)
+            {
+                mouseclick.grouphealthplayer -= GetComponent<shipstats>().shiphealth;
+                isrevealed = false;
+                if (mouseclick.grouphealthplayer < 0)
+                {
+                    mouseclick.grouphealthplayer = 0;
+                }
+                if (mouseclick.grouphealth == 0)                            /////
+                {                                                           /////
+                    mouseclick.grouphealthplayer = 0;///
+                }
+                //cd = 100;
+            }
+        }
         distancefromplayer = Vector3.Distance(transform.position, player.transform.position);
 
         distance = Vector3.Distance(transform.position, FindClosestEnemy().transform.position);
@@ -43,7 +69,8 @@ public class deflookatenemy : MonoBehaviour
         {
             if ((distancefromplayer > maxdist / 2) && (gameObject.tag == "Player"))
             {
-                transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed);
+               // transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed);
+                transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = player.transform.position;
             }
         }
     
@@ -82,17 +109,33 @@ public class deflookatenemy : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-
-        if (other.gameObject.CompareTag("enbullet")&&(gameObject.tag=="Player"))
+        if ((other.gameObject.CompareTag("detectionbullet")) && (gameObject.tag != "enemy") && (gameObject.GetComponent<playermove>().enabled == false))
+        {
+            if (isrevealed == false)
+            {
+                mouseclick.grouphealthplayer += GetComponent<shipstats>().shiphealth;
+            }
+            isrevealed = true;
+            cd = 20;
+        }
+        if (other.gameObject.CompareTag("enbullet")&&(gameObject.tag=="Player"))//&&(gameObject.name!="aaaaaa" ))
         {
             Destroy(other.gameObject);
-            GetComponent<shipstats>().shiphealth--;
+           
+            if (GetComponent<shipstats>().shiphealth > 0)
+            {
+                GetComponent<shipstats>().shiphealth--;
+                mouseclick.grouphealthplayer--;
+            }
+        
             if (GetComponent<shipstats>().shiphealth <= 0)
             {
-                if(gameObject.name== "tempplayer")
+                GetComponent<shipstats>().shiphealth = 0;
+                if (gameObject.name== "tempplayer")
                 {
                     GetComponent<playermove>().Jumpback();
                 }
+                
                 Destroy(gameObject);
             }
         }
