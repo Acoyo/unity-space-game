@@ -19,6 +19,8 @@ public class detectionbullets : MonoBehaviour {
         if (other.gameObject.CompareTag("Player"))
         {
             owner.GetComponent<lookatplayer>().canseeyou = true;
+            owner.GetComponent<lookatplayer>().lastseenposition = gameObject.transform.position;
+            owner.GetComponent<lookatplayer>().distancelastseenbool = true;
             Destroy(gameObject);
         }
         else if (other.gameObject.CompareTag("enbullet"))
@@ -57,6 +59,7 @@ public class detectionbullets : MonoBehaviour {
         {
             return;
         }
+      
         else if ((other.gameObject.CompareTag("bulletknockback")) || (other.gameObject.CompareTag("bullet")))
         {
             return;
@@ -64,6 +67,7 @@ public class detectionbullets : MonoBehaviour {
         else
         { 
             owner.GetComponent<lookatplayer>().canseeyou = false;
+           // owner.GetComponent<lookatplayer>().distancelastseenbool = false;
             Destroy(gameObject);
         }
     }

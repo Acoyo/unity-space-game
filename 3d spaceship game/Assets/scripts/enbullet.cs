@@ -12,7 +12,8 @@ public class enbullet : MonoBehaviour
     public float distance;
     public float mindist = 5f;
     public float maxdist = 20f;
-    public int destroytime = 2;
+    public int destroytime = 4;
+    public int bulletlife = 2;
 
     private void Start()
     {
@@ -34,7 +35,7 @@ public class enbullet : MonoBehaviour
         }
         if (distance <= .1f)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
     public GameObject FindClosestEnemy()
@@ -79,9 +80,13 @@ public class enbullet : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
 
-        if (other.gameObject.CompareTag("bullet"))
+        if ((other.gameObject.CompareTag("bullet"))|| (other.gameObject.CompareTag("bulletknockback")))
         {
-          //  Destroy(gameObject);
+            bulletlife--;
+            if (bulletlife <= 0)
+            {
+                  Destroy(gameObject);
+            }
         }
     }
 }

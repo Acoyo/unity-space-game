@@ -20,16 +20,30 @@ public class spawnbulletenemy : MonoBehaviour
     public int temp;
     public GameObject target2;
     public GameObject childObj;
-
+    public Color red = new Color(.5f, 0f, 1f, 0.4f);
+    public Color brown = new Color(0.2f, .1f, 1, 0.2f);
     public float distance;
     public float mindist = 5f;
     public float maxdist = 20f;
     // Use this for initialization
-    void Start()
+    private void OnEnable()
     {
         temp = Random.Range(0, 2);
+    }
+    void Start()
+    {
+        //temp = Random.Range(0, 2);
         coundownattackspeed = GetComponentInParent<shipstats>().attackspeed;
         GetComponentInParent<shipstats>().attackspeed = GetComponentInParent<shipstats>().attackspeed + Random.Range(10, 19);
+        if (temp == 0)
+        {
+           // GetComponentInParent<Renderer>().material.color = Color.blue;
+            //sphere.renderer.material.color = Color.red;
+        }
+        else if (temp == 1)
+        {
+           // GetComponentInParent<Renderer>().material.color = red;
+        }
     }
 
 

@@ -13,7 +13,7 @@ public class followmouse : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        mouseclick.cursortouchwall = false;
     }
   
     // Update is called once per frame
@@ -35,4 +35,27 @@ public class followmouse : MonoBehaviour
 
         }
     }
+     void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("wall"))
+        {
+            mouseclick.cursortouchwall = true;
+            
+        }
+    }
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("wall"))
+        {
+            mouseclick.cursortouchwall = true;
+        }
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("wall"))
+        {
+            mouseclick.cursortouchwall = false;
+        }
+    }
+ 
 }

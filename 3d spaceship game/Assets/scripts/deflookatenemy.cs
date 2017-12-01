@@ -74,7 +74,7 @@ public class deflookatenemy : MonoBehaviour
             }
         }
     
-        if ((distance < maxdist+2))
+        if ((distance < maxdist+2)&&(GetComponentInChildren<spawnbulletdefender>().canseeyou == true))
         {
             transform.LookAt(FindClosestEnemy().transform.position);
             defaggrosphere.gameObject.SetActive(true);
@@ -83,7 +83,7 @@ public class deflookatenemy : MonoBehaviour
         {
             defaggrosphere.gameObject.SetActive(false);
         }
-        if ((FindClosestEnemy() != null) && ((distance > mindist)&&(followenemy==true) && (distance < maxdist)))
+        if ((FindClosestEnemy() != null) && ((distance > mindist)&&(followenemy==true) && (distance < maxdist) && (GetComponentInChildren<spawnbulletdefender>().canseeyou == true)))
         {
             transform.position = Vector3.MoveTowards(transform.position, FindClosestEnemy().transform.position, speed);
         }
@@ -109,6 +109,12 @@ public class deflookatenemy : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.CompareTag("enemybasehealing") && (gameObject.tag == "Player"))
+        {
+            //ishealing = true;
+            //enemybasetransform().GetComponent<enemybase>().enemybasehealth++;
+            GetComponent<shipstats>().shiphealth = GetComponent<shipstats>().maxhealth;
+        }
         if ((other.gameObject.CompareTag("detectionbullet")) && (gameObject.tag != "enemy") && (gameObject.GetComponent<playermove>().enabled == false))
         {
             if (isrevealed == false)

@@ -25,6 +25,10 @@ TagManager:
   - detectionbullet
   - closequarters
   - enemybasehealing
+  - falcon
+  - healthslider
+  - Fire
+  - homehealing
   layers:
   - Default
   - TransparentFX

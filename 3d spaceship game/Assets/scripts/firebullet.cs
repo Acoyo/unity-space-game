@@ -26,13 +26,17 @@ public class firebullet : MonoBehaviour
         // transform.Translate(Vector3.forward * Time.deltaTime);
         //transform.Translate(Vector3.up * Time.deltaTime * speed, Space.World);
         Destroy(gameObject, destroyTime);
-        
+        if (gameObject.tag == ("enbullet") && (mouseclick.isfalcon == true))
+        {
+            gameObject.transform.localScale += new Vector3(4f, 4f, 4f);
+        }
         if (gameObject.tag == "enbullet")
         {
             StartCoroutine(wait2seconds());
             //yield return new WaitForSeconds(1.95f);
             //Instantiate(destroyed, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         }
+       
     }
     IEnumerator wait2seconds()
     {

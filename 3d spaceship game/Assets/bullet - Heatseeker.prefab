@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 23977427597940912}
   m_Layer: 0
   m_Name: bullet - HeatseekerTRIG
-  m_TagString: bullet
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -262,11 +262,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   target2: {fileID: 0}
-  speed: 2
+  speed: 3
   distance: 0
   mindist: 5
-  maxdist: 130
-  destroyTime: 1
+  maxdist: 150
+  destroyTime: 4
+  ownercopy: {fileID: 0}
 --- !u!114 &114332740798851066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -309,7 +310,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1939767468129824}
   serializedVersion: 5
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   looping: 1

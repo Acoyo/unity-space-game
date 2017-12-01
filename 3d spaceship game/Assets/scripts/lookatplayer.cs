@@ -39,16 +39,27 @@ public class lookatplayer : MonoBehaviour
     private Rigidbody thisbody;
     private bool closequarters=false;
     public bool ishealing = false;
-
+    public Color red = new Color(.5f, 0f, 1f, 0.4f);
+    public Color brown = new Color(0.2f, .1f, 1, 0.2f);
+    public Vector3 lastseenposition;
+    public float distancelastseenposition;
+    public bool distancelastseenbool;
+    public float distancefromplayer;
+    Vector3 playerpos;
 
     public Material defendermat;
     public bool canmove;
     public bool canseeyousnap= true;
+    public Renderer thisobject;
 
   
     private void Start()
     {
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        Renderer rend = GetComponent<Renderer>();
+       // rend.material.shader = Shader.Find("Specular");
+        //rend.material.SetColor("_Color", Color.blue);
+
+        //transform.position = new Vector3(transform.position.x+0, 0, transform.position.z+0);
         thisbody = GetComponent<Rigidbody>();
         canmove = true;
         //shiphealthenemy = GetComponent<shipstats>().shiphealth;
@@ -63,7 +74,17 @@ public class lookatplayer : MonoBehaviour
         distance = 100;
         canseeyou = false;
         canseeyousnap = true;
-        transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = enemybaselowesthealth().transform.position;
+        transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = enemybasetransform().transform.position;
+        if (GetComponentInChildren<spawnbulletenemy>().temp == 1)
+        {
+            //transform.localScale += new Vector3(2, 0, 2);
+           // transform.position += new Vector3(0, 0, 0);
+        }
+        if (GetComponentInChildren<spawnbulletenemy>().temp == 0)
+        {
+            //transform.localScale += new Vector3(1, 2, 1);
+           // transform.position += new Vector3(0, 0, 0);
+        }
 
 
     }
@@ -80,6 +101,17 @@ public class lookatplayer : MonoBehaviour
             canseeyousnap = true;
         }
         grouphealth = mouseclick.grouphealth;
+        playerpos = transform.position;
+        distancelastseenposition = Vector3.Distance( lastseenposition, playerpos);
+        distancefromplayer= Vector3.Distance(target2.transform.position, playerpos);
+        if (distancefromplayer > 275)
+        {
+            distancelastseenbool = false;
+        }
+        if (distancelastseenposition < 1f)
+        {
+            distancelastseenbool = false;
+        }
     }
     public void speeddoubled()
     {
@@ -87,13 +119,48 @@ public class lookatplayer : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (((canseeyou == false) && (GetComponent<shipstats>().shiphealth >= 4)) || (((grouphealth <= mouseclick.grouphealthplayer)) && (GetComponent<shipstats>().shiphealth >= 4)))// &&(canmove==true))              ///  move towards enemy base if one exists
+        if (((canseeyou == false) && (GetComponent<shipstats>().shiphealth >= 4)) || (((grouphealth >= mouseclick.grouphealthplayer)) && (GetComponent<shipstats>().shiphealth >= 4)))// &&(canmove==true))              ///  move towards enemy base if one exists
         {
-            //if(enemybasetransform().tag=="enemybase")
-            transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = enemybasetransform().transform.position;
-            transform.LookAt(FindClosestEnemy().transform.position);
+            if (distancelastseenbool == false)
+            {
+                transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = enemybasetransform().transform.position;
+                transform.LookAt(FindClosestEnemy().transform.position);
+            }
+            if ((distancelastseenbool == true)&& (grouphealth >= mouseclick.grouphealthplayer))
+            {
+                transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = lastseenposition;
+                transform.LookAt(FindClosestEnemy().transform.position);
+             
+            }
+            if ((distancelastseenbool == true) && (grouphealth <= mouseclick.grouphealthplayer))
+            {
+                transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = enemybasetransform().transform.position;
+                transform.LookAt(FindClosestEnemy().transform.position);
 
+            }
         }
+        //if (((canseeyou == false) && (GetComponent<shipstats>().shiphealth >= 4)) && (((grouphealth <= mouseclick.grouphealthplayer)) && (GetComponent<shipstats>().shiphealth >= 4)))// &&(canmove==true))              ///  move towards enemy base if one exists
+        //{
+        //    if (distancelastseenbool == false)
+
+        //    {
+        //        transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = enemybasetransform().transform.position;
+        //        transform.LookAt(FindClosestEnemy().transform.position);
+
+        //    }
+
+        //}
+        //if ((distance > mindist) && (distance < maxdist) && (canseeyou == false) && (grouphealth >= mouseclick.grouphealthplayer)/*&&(distancelastseenposition<=maxdist)*/)// && (FindClosestEnemy().transform != null))
+        //{
+        //    transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = lastseenposition;
+        //    transform.LookAt(FindClosestEnemy().transform.position);
+        //    // fakeplayer()    
+
+        //}
+        //if (canseeyou == true)
+        //{
+
+        //}
         if (distance > maxdist)
         {
             canseeyou = false;
@@ -118,7 +185,7 @@ public class lookatplayer : MonoBehaviour
                 cdhealing = healingcooldown;
             }
         }
-        enemybase = enemybaselowesthealth();
+        enemybase = enemybasetransform();
         {
             if (countdown <= 0)
             {
@@ -133,6 +200,9 @@ public class lookatplayer : MonoBehaviour
           
         }
         //FindClosestEnemy();
+       
+       
+        
         countdownstun--;
         countdown--;
         healingfountain=GameObject.Find("Healing fountain enemy");
@@ -149,7 +219,7 @@ public class lookatplayer : MonoBehaviour
         if ((canmove == true)&&(GetComponent<shipstats>().shiphealth >= 4))
         {
             distance = Vector3.Distance(gameObject.transform.position, FindClosestEnemy().transform.position);
-            distancefrombase = Vector3.Distance(gameObject.transform.position, enemybaselowesthealth().transform.position);
+            distancefrombase = Vector3.Distance(gameObject.transform.position, enemybasetransform().transform.position);
 
             if (closequarters == true)
             {
@@ -159,7 +229,13 @@ public class lookatplayer : MonoBehaviour
                     transform.LookAt(FindClosestEnemy().transform.position);
                     // fakeplayer()    
                 }
-           
+                if ((distance > mindist) && (distance < maxdist+100) && (canseeyou == true) && (grouphealth <= mouseclick.grouphealthplayer))// && (FindClosestEnemy().transform != null))
+                {
+                    transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = healingfountain.transform.position;
+                    transform.LookAt(FindClosestEnemy().transform.position);
+                    // fakeplayer()    
+                }
+
             }
             if (closequarters == false)
             {
@@ -245,35 +321,36 @@ public class lookatplayer : MonoBehaviour
         }
         return closest;
     }
-    public GameObject enemybaselowesthealth()
-    {
-        GameObject[] gos;
-        gos = GameObject.FindGameObjectsWithTag("enemybase");
-        GameObject lowest = null;
-        float basehealth = Mathf.Infinity;
-        //Vector3 position = transform.position;
-        foreach (GameObject go in gos)
-        {
-            //Vector3 diff = go.transform.position - position;
-            float lowesthealthbase = go.GetComponent<enemybase>().enemybasehealth;
-            if (lowesthealthbase < basehealth)
-            {
-                lowest = go;
-                basehealth = lowesthealthbase;
-            }
-        }
-        return lowest;
-    }
+    //public GameObject enemybaselowesthealth()
+    //{
+    //    GameObject[] gos;
+    //    gos = GameObject.FindGameObjectsWithTag("enemybase");
+    //    GameObject lowest = null;
+    //    float basehealth = Mathf.Infinity;
+    //    Vector3 position = transform.position;
+    //    foreach (GameObject go in gos)
+    //    {
+    //        Vector3 diff = go.transform.position - position;
+    //        float lowesthealthbase = go.GetComponent<enemybase>().enemybasehealth;
+    //        if (lowesthealthbase < basehealth)
+    //        {
+    //            lowest = go;
+    //            basehealth = lowesthealthbase;
+    //        }
+    //    }
+    //    return lowest;
+    //}
     public void destroyunit()
     {
         Instantiate(destroyed, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        mouseclick.amountofenemies -= 1;
         Destroy(gameObject);
     }
     IEnumerator waitthenactivate()
     {
        
         yield return new WaitForSeconds(2);
-        enemybaselowesthealth();
+       // enemybaselowesthealth();
         thisbody.velocity = Vector3.zero;
         canmove = false;
         canmove = true;
@@ -316,7 +393,7 @@ public class lookatplayer : MonoBehaviour
         {
             //ishealing = true;
             //enemybasetransform().GetComponent<enemybase>().enemybasehealth++;
-            GetComponent<shipstats>().shiphealth = 12;
+            GetComponent<shipstats>().shiphealth = GetComponent<shipstats>().maxhealth;
         }
         if (other.gameObject.CompareTag("closequarters") && (gameObject.tag == "enemy"))
         {
@@ -324,15 +401,11 @@ public class lookatplayer : MonoBehaviour
         }
             if (other.gameObject.CompareTag("bullet")&&(gameObject.tag== "enemy"))
         {
-           // canmove = false;
-            //Destroy(other.gameObject);
+          
             countdownstun = countdownstunduration;
             if (gameObject.tag == "enemy")
             {
-                //AudioSource destroyed = GetComponent<AudioSource>();
-
-                //destroyed.Play();
-                //countdown = 500;                                     //time enemy aggro duration
+                                           //time enemy aggro duration
                 GetComponent<shipstats>().shiphealth--;
                 if (GetComponent<shipstats>().shiphealth >= 0)
                 {
@@ -341,25 +414,21 @@ public class lookatplayer : MonoBehaviour
                 if (GetComponent<shipstats>().shiphealth <= 0)
                 {
                     shiphealthenemy = 0;
-                    mouseclick.amountofenemies -= 1;
+                    //mouseclick.amountofenemies -= 1;
                     destroyunit();
                    
                 }
-
 
             }
         }
         if (other.gameObject.CompareTag("bulletknockback") && (gameObject.tag == "enemy"))
         {
-            //canmove = false;
+         
             Destroy(other.gameObject);
             countdownstun = countdownstunduration;
             if (gameObject.tag == "enemy")
             {
-                //AudioSource destroyed = GetComponent<AudioSource>();
-
-                //destroyed.Play();
-                //countdown = 500;                                     //time enemy aggro duration
+          
                 GetComponent<shipstats>().shiphealth--;
                 if (GetComponent<shipstats>().shiphealth >= 0)
                 {
@@ -368,11 +437,10 @@ public class lookatplayer : MonoBehaviour
                 if (GetComponent<shipstats>().shiphealth <= 0)
                 {
                     shiphealthenemy = 0;
-                    mouseclick.amountofenemies -= 1;
+                    //mouseclick.amountofenemies -= 1;
                     destroyunit();
 
                 }
-
 
             }
 
@@ -385,13 +453,12 @@ public class lookatplayer : MonoBehaviour
             if (gameObject.tag == "enemy")
             {
 
-                //countdown = 500;                                     //time enemy aggro duration
                 GetComponent<shipstats>().shiphealth-=1;
                 //mouseclick.grouphealth--;
                 if (GetComponent<shipstats>().shiphealth <= 0)
                 {
                     shiphealthenemy = 0;
-                    mouseclick.amountofenemies -= 1;
+                    //mouseclick.amountofenemies -= 1;
                     destroyunit();
                 }
 
@@ -418,7 +485,7 @@ public class lookatplayer : MonoBehaviour
             GetComponentInChildren<spawnbulletenemy>().enabled = false;
             GetComponentInChildren<spawnbullet>().enabled = true;
             gameObject.tag = "Player";                                          ///
-            target2.gameObject.tag = "Untagged";                                    ////
+            //target2.gameObject.tag = "Untagged";                                    ////justchanged
             childObj.gameObject.tag = "HeroicUnit";
             
             //other.gameObject.SetActive(false);
@@ -432,8 +499,9 @@ public class lookatplayer : MonoBehaviour
             GetComponent<lookatplayer>().enabled = false;
             GetComponent<UnityEngine.AI.NavMeshAgent>().enabled=false;
             mouseclick.amountofenemies -= 1;
+            gameObject.name = ("tempplayer");                                          //justchanged
             //mouseclick.grouphealthplayer
-
+            transform.position = new Vector3(transform.position.x, -2, transform.position.z);
         }
         waitthenactivate();
     }

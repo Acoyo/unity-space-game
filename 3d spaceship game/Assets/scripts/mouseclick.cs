@@ -12,9 +12,12 @@ public class mouseclick : MonoBehaviour {
     static public int bulletminispin=0;
     static public bool minispinbool=false;
     static public int grouphealth;
+    static public bool cursortouchwall = false;
+    public bool cursortouchwallshow;
     public int grouphealthshow;
     static public int grouphealthplayer;
     public int grouphealthplayershow;
+    public static bool isfalcon = false;
 
     public static int audiochain;
     public int audiochaincopy;
@@ -24,6 +27,8 @@ public class mouseclick : MonoBehaviour {
     public GameObject player;
     public float timeset=1f;
     public static int amountofenemies=0;
+    public bool ispaused=false;
+   // public GameObject player;
     
 
     static public Transform mouseposobj;
@@ -53,11 +58,21 @@ public class mouseclick : MonoBehaviour {
         // Instantiate(cursorback, new Vector3(Input.mousePosition.x / 100, Input.mousePosition.y - 100, Input.mousePosition.z / 100), Quaternion.identity);
 
     }
+    void reloadscene()
+    {
+        mouseclick.amountofenemies = 0;
+        SceneManager.LoadScene(0);
+    }
     private void Update()
     {
 
         Time.timeScale = timeset; ;
         //grouphealthshow = grouphealth;
+
+        if (player.GetComponent<shipstats>().shiphealth <= 0)
+        {
+            reloadscene();
+        }
         if (grouphealth < 0)
         {
             grouphealth = 0;
@@ -75,9 +90,23 @@ public class mouseclick : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
-          
-            SceneManager.LoadScene(0);
+
+            reloadscene();
         }
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            if (ispaused == false)
+            {
+                timeset = 0;
+                ispaused = true;
+            }
+            else if (ispaused == true)
+            {
+                timeset = 1;
+                ispaused = false;
+            }
+        }
+        cursortouchwallshow = cursortouchwall;
     }
     public void playaudio2()
     {

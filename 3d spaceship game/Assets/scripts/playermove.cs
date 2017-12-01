@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class playermove : MonoBehaviour
 {
@@ -23,38 +24,66 @@ public class playermove : MonoBehaviour
     public int cd=100;
     public bool scriptenabled;
     public int i;
+    
 
-    public Slider healthSlider;                                 // Reference to the UI's health bar.
-    public RawImage damageImage;                                   // Reference to an image to flash on the screen on being hurt.
-    //public AudioClip deathClip;                                 // The audio clip to play when the player dies.
-    public float flashSpeed = 5f;                               // The speed the damageImage will fade at.
+    public Slider healthSlider;
+    public Slider blinkslider;
+    public float blinkslideramount=900;
+    public GameObject blinksliderholder;
+    public GameObject healthsliderobject;
+    public RawImage damageImage;                                  
+    public RawImage skullisrevealed;
+    public GameObject skullbackRED;
+    public RawImage gameoversign;
+    public float flashSpeed = 5f;                              
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
     public Color healcolor = new Color(0, 1f, 0, 0.1f);
     public bool justbeenhit = false;
+    
 
     void Start()
     {
+        skullbackRED = GameObject.Find("RawImage skullbackRED");
+        skullisrevealed.enabled = false;
+        skullbackRED.SetActive(false);
+       // gameoversign.enabled=false;
         cursor = GameObject.FindWithTag("follow").transform;
         // defenderhealth = GetComponent<lookatplayer>().shiphealthenemy;
         // GetComponent<lookatplayer>().shiphealthenemy = defenderhealth;
         rb = GetComponent<Rigidbody>();
-        player = GameObject.Find("aaaaaa");                          /// find player by NAME
+        player = GameObject.Find("aaaaaa");
+        //player = GetComponent<lookatplayer>().target2;
+        //player/// find player by NAME
        // Destroy(aggrosphere.gameObject);
         //gameObject.name = "currentship";
         distance = GetComponent<playerlookatmouse>().distance;
         isrevealed = false;
         scriptenabled = true;
         //mouseclick.grouphealthplayer += GetComponent<shipstats>().shiphealth;
+        healthSlider.maxValue = GetComponent<shipstats>().maxhealth;
+        healthSlider.value = GetComponent<shipstats>().shiphealth;
+        //blinkslider.value = blinkslideramount;
     }
+    
     private void OnEnable()
+        
     {
         scriptenabled = true;
+        cursor = GameObject.FindWithTag("follow").transform;
+        rb = GetComponent<Rigidbody>();
+        //skullbackRED= GameObject.Find("RawImage skullbackRED");
+        blinksliderholder = GameObject.Find("blink slider");
+        blinkslider = blinksliderholder.GetComponent<Slider>();
+        healthsliderobject = GameObject.FindWithTag("healthslider");
+        healthSlider = healthsliderobject.GetComponent<Slider>();
+        
         transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         mouseclick.grouphealthplayer -= GetComponent<shipstats>().shiphealth;
         if (mouseclick.grouphealthplayer < 0)
         {
             mouseclick.grouphealthplayer = 0;
         }
+        
     }
     private void OnDisable()
     {
@@ -62,6 +91,15 @@ public class playermove : MonoBehaviour
     }
     void FixedUpdate()
     {
+        //skullbackRED = GameObject.Find("RawImage skullbackRED");
+        player = GameObject.Find("aaaaaa");
+        if (blinkslideramount < 900)
+        {
+            blinkslideramount += 1f;
+        }
+        healthSlider.maxValue = GetComponent<shipstats>().maxhealth;
+        healthSlider.value = GetComponent<shipstats>().shiphealth;
+
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
@@ -69,12 +107,13 @@ public class playermove : MonoBehaviour
 
         if (isrevealed == true)
         {
-            
+            skullisrevealed.enabled = true;
             cd--;
             if (cd <= 0)
             {
                 mouseclick.grouphealthplayer -= GetComponent<shipstats>().shiphealth;
                 isrevealed = false;
+                skullisrevealed.enabled = false;
                 //cd = 100;
             }
         }
@@ -108,7 +147,7 @@ public class playermove : MonoBehaviour
         GetComponentInChildren<spawnbullet>().enabled = false;
         // gameObject.tag = "defender";
         //  player.gameObject.tag = "Player";
-        childObj.gameObject.tag = "Untagged";
+        childObj.gameObject.tag = "Player";                                         //justchanged
         childObj2.gameObject.tag = "HeroicUnit";
         //other.gameObject.SetActive(false);
         //childObj.gameObject.SetActive(true);
@@ -117,7 +156,7 @@ public class playermove : MonoBehaviour
         //other.gameObject.SetActive(false);
         player.GetComponentInChildren<spawnbullet>().enabled = true;
         GetComponentInChildren<spawnbulletdefender>().enabled = true;
-        GetComponentInChildren<spawnbulletdefender>().defbullet = GetComponentInChildren<spawnbullet>().currentbullet;
+        GetComponentInChildren<spawnbulletdefender>().defbullet = GetComponentInChildren<spawnbullet>().currentbullet;    // defender has same bullet as what player had on enemy ship
         GetComponent<deflookatenemy>().enabled = true;
         player.tag = "Player";
         gameObject.name = "namelessone";
@@ -128,11 +167,19 @@ public class playermove : MonoBehaviour
         
         if (scriptenabled == true)
         {
-             //cursor = GameObject.FindWithTag("follow)").transform.position;
+            blinkslider.value = blinkslideramount;
+            //cursor = GameObject.FindWithTag("follow)").transform.position;
             //mouseclick.grouphealthplayer = playerhealth;
             distance = GetComponent<playerlookatmouse>().distance;
             aggrosphere.transform.localScale = new Vector3(distance / 2, 0, distance / 2);
-
+            if (GetComponent<shipstats>().shiphealth <= 0)
+            {
+                //gameoversign.enabled = true;
+                mouseclick.amountofenemies = 0;
+                SceneManager.LoadScene(0);
+            }
+            
+        
             if (Input.GetKeyDown(KeyCode.T) && (gameObject.name != "aaaaaa"))
             {
 
@@ -158,9 +205,13 @@ public class playermove : MonoBehaviour
             {
                 GetComponent<deflookatenemy>().followplayer = false;
             }
-            if (Input.GetKeyDown(KeyCode.Space) && (gameObject.tag == "Player")&& (isrevealed == false))                                  ///teleport
+            if (Input.GetKeyDown(KeyCode.Space) && (gameObject.tag == "Player")&& (isrevealed == false)&&(mouseclick.cursortouchwall==false))                                  ///teleport
             {
-                transform.position = new Vector3(cursor.transform.position.x, cursor.transform.position.y - 3, cursor.transform.position.z);
+                if (blinkslideramount >= 300)
+                {
+                    transform.position = new Vector3(cursor.transform.position.x, cursor.transform.position.y, cursor.transform.position.z);
+                    blinkslideramount -= 300;
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Home) && (gameObject.tag == "Player") && (isrevealed == false))
@@ -177,14 +228,14 @@ public class playermove : MonoBehaviour
 
             {
                 destinationtrans = GameObject.Find("Destination(Clone)").transform;
-                transform.position = new Vector3(destinationtrans.transform.position.x, destinationtrans.transform.position.y-2, destinationtrans.transform.position.z - 5);
+                transform.position = new Vector3(destinationtrans.transform.position.x, destinationtrans.transform.position.y, destinationtrans.transform.position.z - 5);
 
             }
             if (Input.GetKeyDown(KeyCode.PageDown) && (gameObject.tag == "Player") && (isrevealed == false))
 
             {
                 //Vector3 cursor = GameObject.Find("Capsule)").transform.position;
-                transform.position = new Vector3(cursor.transform.position.x, cursor.transform.position.y - 3, cursor.transform.position.z);
+                transform.position = new Vector3(cursor.transform.position.x, cursor.transform.position.y, cursor.transform.position.z);
 
             }
         }
@@ -203,6 +254,35 @@ public class playermove : MonoBehaviour
 
         void OnTriggerEnter(Collider other)
     {
+        if ((other.gameObject.CompareTag("falcon")) && ((gameObject.name == "aaaaaa")|| (gameObject.tag == "Player"))) 
+        {
+            GetComponentInChildren<spawnbullet>().shipskinfalconbool = true;
+            healthSlider.maxValue = GetComponent<shipstats>().maxhealth*2;
+            mouseclick.isfalcon = true;
+            //Destroy(other.gameObject);
+        }
+        if (other.gameObject.CompareTag("enemybasehealing"))
+        {
+
+            damageImage.color = healcolor;
+            i = 50;
+            justbeenhit = true;
+            GetComponent<shipstats>().shiphealth = GetComponent<shipstats>().maxhealth;
+            //mouseclick.grouphealthplayer = GetComponent<shipstats>().shiphealth;
+
+
+        }
+        if (other.gameObject.CompareTag("homehealing"))
+        {
+
+            damageImage.color = healcolor;
+            i = 50;
+            justbeenhit = true;
+            GetComponent<shipstats>().shiphealth = GetComponent<shipstats>().maxhealth;
+            //mouseclick.grouphealthplayer = GetComponent<shipstats>().shiphealth;
+
+
+        }
         if (player == gameObject)                       // if (player named: aaaaaa == this gameobject)
         {
 
@@ -218,19 +298,11 @@ public class playermove : MonoBehaviour
                  mouseclick.grouphealthplayer--;
                 damageImage.color = flashColour;
                 destroyed.Play();
-            }
-            if (other.gameObject.CompareTag("enemybasehealing"))
-            {
-                
-                damageImage.color = healcolor;
-                i = 50;
-                justbeenhit = true;
-                GetComponent<shipstats>().shiphealth=12;
-                //mouseclick.grouphealthplayer = 12;
-
 
             }
-        }
+       
+           
+            }
         if ((other.gameObject.CompareTag("detectionbullet"))&&(gameObject.tag !="enemy"))
         {
             if (isrevealed == false)

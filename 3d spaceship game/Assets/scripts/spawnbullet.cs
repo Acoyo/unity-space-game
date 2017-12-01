@@ -21,10 +21,10 @@ public class spawnbullet : MonoBehaviour {
     public GameObject heroic;
 
     public Transform bulletSPAWN;
-    public Transform sidetosidetrans;
-    public Transform sidetosidetransRev;
-    public Transform STSlooks;
-    public Transform STSRevlooks;
+    public GameObject sidetosidetrans;
+    public GameObject sidetosidetransRev;
+    public GameObject STSlooks;
+    public GameObject STSRevlooks;
     public Transform bulletleftspawn;
     public Transform bulletrightspawn;
     public Transform centreofplayer;
@@ -32,28 +32,41 @@ public class spawnbullet : MonoBehaviour {
     public bool bulletswitch = false;
     public int countdown;
     public int coundownattackspeed;
+    public GameObject ShipSkinFalcon;
+    public bool shipskinfalconbool = false;
     // Use this for initialization
     private void OnEnable()
     {
         GetComponentInParent<shipstats>().attackspeed = 20;
         countdown = 1;
+        sidetosidetrans.SetActive(true);
+        sidetosidetransRev.SetActive(true);
+        STSlooks.SetActive(true);
+        STSRevlooks.SetActive(true);
+
     }
     private void OnDisable()
     {
         GetComponentInParent<shipstats>().attackspeed = 50;
     }
+    void skinfalcon()
+    {
+        ShipSkinFalcon.SetActive(true);
+        GetComponentInParent<shipstats>().attackspeed = 25;
+    }
     void Start () {
+        shipskinfalconbool = false;
         heroic = GameObject.FindWithTag("HeroicUnit");
         //bulletSPAWN = GetComponent<Transform>();
         currentbullet = bullet;
         coundownattackspeed = GetComponentInParent<shipstats>().attackspeed;
         if (gameObject.name != "aaaaaa")
         {
-            if (GetComponent<spawnbulletenemy>().temp == 0)
+            if (GetComponent<spawnbulletenemy>().temp == 1)
             {
                 currentbullet = bullet2;
             }
-            if (GetComponent<spawnbulletenemy>().temp == 1)
+            if (GetComponent<spawnbulletenemy>().temp == 0)
             {
                 currentbullet = bullet;
             }
@@ -64,14 +77,20 @@ public class spawnbullet : MonoBehaviour {
     void FixedUpdate()
     {//if (heroic.tag== "HeroicUnit")
         {
-            countdown--;
+            if (shipskinfalconbool == true)
+            {
+                skinfalcon();
+                GetComponentInParent<shipstats>().maxhealth = 24;
+            }
+
+                countdown--;
             if (countdown < 0)
             {
                 coundownattackspeed = GetComponentInParent<shipstats>().attackspeed;
                 countdown = coundownattackspeed;
 
             }
-            if (Input.GetMouseButton(0) && (ship.gameObject.tag == "Player") && (ship.gameObject.name != "aaaaaa") && (countdown == 0))
+            if (Input.GetMouseButton(0) && (ship.gameObject.tag == "Player") && (ship.gameObject.name != "aaaaaa")&&(shipskinfalconbool == false) && (countdown == 0))
 
             {
 
@@ -89,10 +108,33 @@ public class spawnbullet : MonoBehaviour {
 
                 mouseclick.firstclick = true;
                 mouseclick.bulletoff = false;
-               // firebullet();
-                 fireleftmouse();
-                 //sidetosidebulletslooks();
-                   sidetosidebullets();
+                //firebullet();
+                //fireleftmouse();
+                if (shipskinfalconbool == false)
+                {
+                    sidetosidebulletslooks();
+                }
+            }
+                if (Input.GetMouseButton(0) && (ship.gameObject.tag == "Player") && (shipskinfalconbool == true) && (countdown == 0))
+
+            {
+
+                mouseclick.firstclick = true;
+                mouseclick.bulletoff = false;
+                //firebullet();
+                //fireleftmouse();
+                if (shipskinfalconbool == false)
+                {
+                    sidetosidebulletslooks();
+                }
+                if (shipskinfalconbool == true)
+                {
+                    //skinfalcon();
+                    sidetosidebulletslooks();
+                    sidetosidebullets();
+                    fireleftmouse();
+                }
+                //sidetosidebullets();
                 //
             }
             if (Input.GetKey(KeyCode.LeftShift) && (ship.gameObject.tag == "Player") && (countdown == 0))
@@ -158,10 +200,10 @@ public class spawnbullet : MonoBehaviour {
            
 
 
-            if (Input.GetMouseButton(1) && (ship.gameObject.tag == "Player"))// && (countdown == 0))
+            if (Input.GetMouseButtonDown(1) && (ship.gameObject.tag == "Player"))// && (countdown == 0))
             {
                 //if(mouseclick.bulletteleport==false)
-                fireminispin();
+                firecurvebullets();
             }
 
 
@@ -198,14 +240,14 @@ public class spawnbullet : MonoBehaviour {
 
     void sidetosidebullets()
     {
-        Instantiate(currentbullet, new Vector3(sidetosidetrans.position.x, sidetosidetrans.position.y, sidetosidetrans.position.z), sidetosidetrans.rotation);
-        Instantiate(currentbullet, new Vector3(sidetosidetransRev.position.x, sidetosidetransRev.position.y, sidetosidetransRev.position.z), sidetosidetransRev.rotation);
+        Instantiate(currentbullet, new Vector3(sidetosidetrans.transform.position.x, sidetosidetrans.transform.position.y, sidetosidetrans.transform.position.z), sidetosidetrans.transform.rotation);
+        Instantiate(currentbullet, new Vector3(sidetosidetransRev.transform.position.x, sidetosidetransRev.transform.position.y, sidetosidetransRev.transform.position.z), sidetosidetransRev.transform.rotation);
 
     }
     void sidetosidebulletslooks()
     {
-        Instantiate(bulletwhite, new Vector3(STSlooks.position.x, STSlooks.position.y, STSlooks.position.z), STSlooks.rotation);
-        Instantiate(bulletwhite, new Vector3(STSRevlooks.position.x, STSRevlooks.position.y, STSRevlooks.position.z), STSRevlooks.rotation);
+        Instantiate(bulletwhite, new Vector3(STSlooks.transform.position.x, STSlooks.transform.position.y, STSlooks.transform.position.z), STSlooks.transform.rotation);
+        Instantiate(bulletwhite, new Vector3(STSRevlooks.transform.position.x, STSRevlooks.transform.position.y, STSRevlooks.transform.position.z), STSRevlooks.transform.rotation);
 
     }
     void duofire()
@@ -236,7 +278,7 @@ public class spawnbullet : MonoBehaviour {
         {
             //currentbullet.name = "playerbullet";
             Instantiate(currentbullet, new Vector3(bulletSPAWN.position.x, bulletSPAWN.position.y, bulletSPAWN.position.z), bulletSPAWN.rotation);
-            currentbullet.name = "averagebullet";
+            //currentbullet.name = "averagebullet";
         }
     }
 }

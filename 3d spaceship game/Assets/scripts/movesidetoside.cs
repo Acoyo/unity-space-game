@@ -16,7 +16,7 @@ public class movesidetoside : MonoBehaviour
 
     private void Start()
     {
-        sidetosideorig = GameObject.Find("pbullet SPAWN");
+        //sidetosideorig = GameObject.Find("pbullet SPAWN");
         thedist = 0;
     }
     private void Update()

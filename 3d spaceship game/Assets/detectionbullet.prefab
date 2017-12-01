@@ -130,8 +130,9 @@ MonoBehaviour:
   speed: 5
   distance: 0
   mindist: 0
-  maxdist: 240
+  maxdist: 400
   destroytime: 2
+  bulletlife: 2
 --- !u!135 &135186899027788848
 SphereCollider:
   m_ObjectHideFlags: 1

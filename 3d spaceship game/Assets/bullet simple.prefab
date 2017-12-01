@@ -363,7 +363,7 @@ MonoBehaviour:
   bullet: {fileID: 0}
   orig: {fileID: 0}
   mousepos: {fileID: 0}
-  speed: 100
+  speed: 130
   speedslows: 40
   lr: 0
   destroyTime: 3
