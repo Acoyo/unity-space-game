@@ -29,6 +29,10 @@ TagManager:
   - healthslider
   - Fire
   - homehealing
+  - followplayer
+  - dontfollowplayer
+  - teleportunit
+  - waypoint
   layers:
   - Default
   - TransparentFX

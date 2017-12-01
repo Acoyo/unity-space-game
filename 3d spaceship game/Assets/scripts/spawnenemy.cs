@@ -29,7 +29,7 @@ public class spawnenemy : MonoBehaviour {
     }
     private void FixedUpdate()
     {
-        transform.RotateAround(target.transform.position, Vector3.up, 20 * Time.deltaTime * speed);
+        //transform.RotateAround(target.transform.position, Vector3.up, 20 * Time.deltaTime * speed);
     }
     void spawnenemyprefab()
     {

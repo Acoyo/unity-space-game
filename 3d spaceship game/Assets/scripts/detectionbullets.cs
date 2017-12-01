@@ -27,6 +27,10 @@ public class detectionbullets : MonoBehaviour {
         {
             return;
         }
+        else if (other.gameObject.CompareTag("followplayer"))
+        {
+            return;
+        }
         else if (other.gameObject.CompareTag("Untagged"))
         {
             return;
@@ -59,7 +63,22 @@ public class detectionbullets : MonoBehaviour {
         {
             return;
         }
-      
+        else if (other.gameObject.CompareTag("falcon"))
+        {
+            return;
+        }
+        else if (other.gameObject.CompareTag("followplayer"))
+        {
+            return;
+        }
+        else if (other.gameObject.CompareTag("dontfollowplayer"))
+        {
+            return;
+        }
+        else if (other.gameObject.CompareTag("teleportunit"))
+        {
+            return;
+        }
         else if ((other.gameObject.CompareTag("bulletknockback")) || (other.gameObject.CompareTag("bullet")))
         {
             return;

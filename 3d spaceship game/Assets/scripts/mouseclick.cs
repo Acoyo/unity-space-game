@@ -28,6 +28,8 @@ public class mouseclick : MonoBehaviour {
     public float timeset=1f;
     public static int amountofenemies=0;
     public bool ispaused=false;
+    static public Transform waypointposition;
+    public Transform waypointpositionShow;
    // public GameObject player;
     
 
@@ -65,7 +67,8 @@ public class mouseclick : MonoBehaviour {
     }
     private void Update()
     {
-
+        waypointposition = GameObject.FindGameObjectWithTag("waypoint").transform;
+        waypointpositionShow = waypointposition;
         Time.timeScale = timeset; ;
         //grouphealthshow = grouphealth;
 

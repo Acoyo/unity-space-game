@@ -57,7 +57,7 @@ public class spawnbulletdefender : MonoBehaviour
             {
                 firebullet();
                 sidetosidebulletslooks();
-                GetComponentInParent<shipstats>().attackspeed = 10;
+                //GetComponentInParent<shipstats>().attackspeed = 20;
             }
             countdown = coundownattackspeed;
             coundownattackspeed = GetComponentInParent<shipstats>().attackspeed;

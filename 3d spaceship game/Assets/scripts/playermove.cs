@@ -39,6 +39,8 @@ public class playermove : MonoBehaviour
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
     public Color healcolor = new Color(0, 1f, 0, 0.1f);
     public bool justbeenhit = false;
+    public GameObject followmeObj;
+    public GameObject dontfollowmeObj;
     
 
     void Start()
@@ -200,10 +202,20 @@ public class playermove : MonoBehaviour
             {
                 GetComponent<deflookatenemy>().followplayer = true;
             }
+            if (Input.GetKeyDown(KeyCode.L) && (gameObject.name == "aaaaaa"))
+
+            {
+                Instantiate (followmeObj, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation); 
+            }
             if (Input.GetKeyDown(KeyCode.K) && (gameObject.name != "aaaaaa"))
 
             {
                 GetComponent<deflookatenemy>().followplayer = false;
+            }
+            if (Input.GetKeyDown(KeyCode.K) && (gameObject.name == "aaaaaa"))
+
+            {
+                Instantiate(dontfollowmeObj, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
             }
             if (Input.GetKeyDown(KeyCode.Space) && (gameObject.tag == "Player")&& (isrevealed == false)&&(mouseclick.cursortouchwall==false))                                  ///teleport
             {
@@ -223,13 +235,15 @@ public class playermove : MonoBehaviour
 
             {
                 Instantiate(destination, new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + 5), transform.rotation);
+                mouseclick.waypointposition = GameObject.FindWithTag("waypoint").transform;
+                
             }
             if (Input.GetKeyDown(KeyCode.End) && (gameObject.tag == "Player") && (isrevealed == false))
 
             {
                 destinationtrans = GameObject.Find("Destination(Clone)").transform;
                 transform.position = new Vector3(destinationtrans.transform.position.x, destinationtrans.transform.position.y, destinationtrans.transform.position.z - 5);
-
+                
             }
             if (Input.GetKeyDown(KeyCode.PageDown) && (gameObject.tag == "Player") && (isrevealed == false))
 

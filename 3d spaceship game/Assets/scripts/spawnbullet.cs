@@ -13,6 +13,7 @@ public class spawnbullet : MonoBehaviour {
     public GameObject bulletwhite;
     public GameObject bulletminispin;
     public GameObject bulletminispincopy;
+    public GameObject bulletteleportunits;
     public GameObject ship;
     public GameObject currentbullet;
     public GameObject player;
@@ -172,6 +173,11 @@ public class spawnbullet : MonoBehaviour {
             {
                 currentbullet = bullet;
             }
+            if (Input.GetKeyDown(KeyCode.Z))
+
+            {
+                bulletteleportunit();
+            }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
 
             {
@@ -255,6 +261,10 @@ public class spawnbullet : MonoBehaviour {
         Instantiate(currentbullet, new Vector3(bulletleftspawn.position.x, bulletleftspawn.position.y, bulletleftspawn.position.z), bulletleftspawn.rotation);
         Instantiate(currentbullet, new Vector3(bulletrightspawn.position.x, bulletrightspawn.position.y, bulletrightspawn.position.z), bulletrightspawn.rotation);
 
+    }
+    void bulletteleportunit()
+    {
+        Instantiate(bulletteleportunits, new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z), player.transform.rotation);
     }
     void firecurvebullets()
     {

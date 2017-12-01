@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DestroyTime : MonoBehaviour {
-    public int timer=10;
+    public float timer=10;
 	// Use this for initialization
 	void Start () {
         Destroy(gameObject, timer);

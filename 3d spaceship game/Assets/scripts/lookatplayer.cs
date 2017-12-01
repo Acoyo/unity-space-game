@@ -74,6 +74,8 @@ public class lookatplayer : MonoBehaviour
         distance = 100;
         canseeyou = false;
         canseeyousnap = true;
+        transform.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
+
         transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = enemybasetransform().transform.position;
         if (GetComponentInChildren<spawnbulletenemy>().temp == 1)
         {
@@ -399,7 +401,14 @@ public class lookatplayer : MonoBehaviour
         {
             closequarters = true;
         }
-            if (other.gameObject.CompareTag("bullet")&&(gameObject.tag== "enemy"))
+        if (other.gameObject.CompareTag("teleportunit") && (gameObject.tag == "enemy"))
+        {
+            transform.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
+            gameObject.transform.position = GameObject.FindGameObjectWithTag("waypoint").transform.position;
+            transform.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
+            Destroy(other.gameObject);
+        }
+        if (other.gameObject.CompareTag("bullet")&&(gameObject.tag== "enemy"))
         {
           
             countdownstun = countdownstunduration;

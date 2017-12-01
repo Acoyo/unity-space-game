@@ -115,6 +115,14 @@ public class deflookatenemy : MonoBehaviour
             //enemybasetransform().GetComponent<enemybase>().enemybasehealth++;
             GetComponent<shipstats>().shiphealth = GetComponent<shipstats>().maxhealth;
         }
+        if (other.gameObject.CompareTag("followplayer"))
+        {
+            followplayer = true;
+        }
+        if (other.gameObject.CompareTag("dontfollowplayer"))
+        {
+            followplayer = false;
+        }
         if ((other.gameObject.CompareTag("detectionbullet")) && (gameObject.tag != "enemy") && (gameObject.GetComponent<playermove>().enabled == false))
         {
             if (isrevealed == false)
