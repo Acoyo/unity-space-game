@@ -51,7 +51,9 @@ public class lookatplayer : MonoBehaviour
     public bool canmove;
     public bool canseeyousnap= true;
     public Renderer thisobject;
-
+    public GameObject skincubered;
+    public GameObject skincubebrown;
+    public GameObject skincubegreen;
   
     private void Start()
     {
@@ -79,13 +81,15 @@ public class lookatplayer : MonoBehaviour
         transform.GetComponent<UnityEngine.AI.NavMeshAgent>().destination = enemybasetransform().transform.position;
         if (GetComponentInChildren<spawnbulletenemy>().temp == 1)
         {
+            skincubebrown.SetActive(true);
             //transform.localScale += new Vector3(2, 0, 2);
            // transform.position += new Vector3(0, 0, 0);
         }
         if (GetComponentInChildren<spawnbulletenemy>().temp == 0)
         {
+            skincubered.SetActive(true);
             //transform.localScale += new Vector3(1, 2, 1);
-           // transform.position += new Vector3(0, 0, 0);
+            // transform.position += new Vector3(0, 0, 0);
         }
 
 
@@ -401,7 +405,7 @@ public class lookatplayer : MonoBehaviour
         {
             closequarters = true;
         }
-        if (other.gameObject.CompareTag("teleportunit") && (gameObject.tag == "enemy"))
+        if (other.gameObject.CompareTag("teleportunit"))// && (gameObject.tag == "enemy"))
         {
             transform.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
             gameObject.transform.position = GameObject.FindGameObjectWithTag("waypoint").transform.position;
@@ -511,6 +515,7 @@ public class lookatplayer : MonoBehaviour
             gameObject.name = ("tempplayer");                                          //justchanged
             //mouseclick.grouphealthplayer
             transform.position = new Vector3(transform.position.x, -2, transform.position.z);
+            skincubegreen.SetActive(true);
         }
         waitthenactivate();
     }

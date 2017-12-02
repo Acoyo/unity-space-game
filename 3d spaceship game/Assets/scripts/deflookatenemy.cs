@@ -132,6 +132,13 @@ public class deflookatenemy : MonoBehaviour
             isrevealed = true;
             cd = 20;
         }
+        if (other.gameObject.CompareTag("teleportunit") && (gameObject.tag == "enemy"))
+        {
+            transform.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
+            gameObject.transform.position = GameObject.FindGameObjectWithTag("waypoint").transform.position;
+            transform.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
+            Destroy(other.gameObject);
+        }
         if (other.gameObject.CompareTag("enbullet")&&(gameObject.tag=="Player"))//&&(gameObject.name!="aaaaaa" ))
         {
             Destroy(other.gameObject);

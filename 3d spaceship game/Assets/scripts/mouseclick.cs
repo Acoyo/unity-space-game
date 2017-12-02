@@ -65,13 +65,15 @@ public class mouseclick : MonoBehaviour {
         mouseclick.amountofenemies = 0;
         SceneManager.LoadScene(0);
     }
-    private void Update()
+    public void Update()
     {
         waypointposition = GameObject.FindGameObjectWithTag("waypoint").transform;
         waypointpositionShow = waypointposition;
         Time.timeScale = timeset; ;
         //grouphealthshow = grouphealth;
-
+        cursortouchwallshow = cursortouchwall;
+        grouphealthplayershow = grouphealthplayer;
+        grouphealthshow = grouphealth;
         if (player.GetComponent<shipstats>().shiphealth <= 0)
         {
             reloadscene();
@@ -84,8 +86,7 @@ public class mouseclick : MonoBehaviour {
         {
             grouphealthplayer = 0;
         }
-        grouphealthplayershow = grouphealthplayer;
-        grouphealthshow = grouphealth;
+      
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
@@ -109,7 +110,7 @@ public class mouseclick : MonoBehaviour {
                 ispaused = false;
             }
         }
-        cursortouchwallshow = cursortouchwall;
+        
     }
     public void playaudio2()
     {
